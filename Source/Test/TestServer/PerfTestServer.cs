@@ -34,14 +34,19 @@
 
             int lastRecv = 0;
             int lastSend = 0;
+            int count = 0;
             while (true)
             {
-                Task.Run(async () =>
+                if(count < 1000000)
                 {
-                    IByteBuffer initialMessage = Unpooled.Buffer(128);
-                    initialMessage.WriteBytes(Stats.testMsg);                   
-                    await Server.Broadcast(initialMessage);
-                });
+                    Task.Run(async () =>
+                    {
+                        IByteBuffer initialMessage = Unpooled.Buffer(128);
+                        initialMessage.WriteBytes(Stats.testMsg);
+                        count += await Server.Broadcast(initialMessage);
+                    });
+                }
+
 
                 if (sw.ElapsedMilliseconds >= 1000)
                 {

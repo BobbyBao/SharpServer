@@ -4,10 +4,10 @@
     <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == '' And '$(OS)' == 'Unix'">ubuntu.16.04-x64</RuntimeIdentifier>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <AssemblyName>TestClient</AssemblyName>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +17,7 @@
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
     <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
     <PackageReference Include="DotNetty.Transport.Libuv" Version="0.6.0" />
+    <PackageReference Include="ServiceStack.Text" Version="5.5.0" />
   </ItemGroup>
 
   <ItemGroup>

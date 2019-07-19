@@ -18,7 +18,19 @@ namespace Test.Client
     using SharpServer;
 
     static class Program
-    {
+    {        
+        private static async IAsyncEnumerable<int> ProduceAsyncConnect(int count)
+        {
+
+            for (var i = 0; i <= 3000; i++)
+            {
+
+                await NetworkClient.Connect<PerfTestClientHandler>("127.0.0.1", 2239);
+
+                yield return 0;
+            }
+        }
+
         static async Task RunClientAsync()
         {
             NetworkClient.Init();
@@ -29,7 +41,6 @@ namespace Test.Client
             Task.Run(()=> NetworkClient.Connect<PerfTestClientHandler>("127.0.0.1", 2239));
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             }
-
 
             int lastRecv = 0;
             int lastSend = 0;
@@ -46,8 +57,6 @@ namespace Test.Client
                 }
             });
 
-            //foreach (var clientChannel in clientChannels)
-            //await clientChannel.CloseAsync();
 //             }
 //             finally
 //             {
@@ -55,6 +64,6 @@ namespace Test.Client
 //             }
         }
 
-        static void Main() => RunClientAsync().Wait();
+        static void Main() => new PerfTestClient().Start();
     }
 }

@@ -6,16 +6,22 @@ namespace SharpServer
 {
     public class AppBase
     {
-        public virtual void Init()
+        public virtual void Start()
         {
         }
 
-        public virtual void Run()
+        protected virtual void OnInit()
         {
         }
 
-        public virtual void Shutdown()
+        protected virtual void OnIdle()
         {
         }
+
+        protected virtual void OnShutdown()
+        {
+        }
+
+
     }
 }

@@ -21,15 +21,11 @@ namespace SharpServer
             Server.Start<T>(Port).Wait();
         }
 
-        public async Task Start<T>() where T : IChannelHandler, new()
-        {
-            await Server.Start<T>(Port);
-        }
     }
 
     public class ServerApp<T> : ServerApp where T : IChannelHandler, new()
     {
-        public void Start()
+        public override void Start()
         {
             Run<T>();
         }

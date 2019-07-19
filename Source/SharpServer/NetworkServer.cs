@@ -16,10 +16,10 @@ namespace SharpServer
 {
     public class NetworkServer
     {
+        IEventLoopGroup bossGroup;
+        IEventLoopGroup workerGroup;
         public async Task Start<T>(int port) where T : IChannelHandler, new() 
         {
-            IEventLoopGroup bossGroup;
-            IEventLoopGroup workerGroup;
             var dispatcher = new DispatcherEventLoopGroup();
             bossGroup = dispatcher;
             workerGroup = new WorkerEventLoopGroup(dispatcher);
@@ -58,6 +58,13 @@ namespace SharpServer
                     workerGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1))
                 );
             }
+        }
+
+        public async void Shutdown()
+        {
+            await Task.WhenAll(
+                bossGroup?.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),               
+                workerGroup?.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
         }
 
         public static IChannelGroup group;
@@ -111,7 +118,7 @@ namespace SharpServer
             public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
             {
                 Console.WriteLine("Exception: " + exception);
-                context.CloseAsync();
+                //context.CloseAsync();
             }
         }
     }

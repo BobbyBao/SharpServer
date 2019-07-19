@@ -33,4 +33,30 @@ namespace Test.Client
             context.CloseAsync();
         }
     }
+
+    public class PerfTestClient : ClientApp<PerfTestClientHandler>
+    {
+        public override void Start()
+        {
+            OnInit();
+
+            for (int i = 0; i < 3000; i++)
+            {
+                Task.Run(() => NetworkClient.Connect<PerfTestClientHandler>("127.0.0.1", 2239));
+            }
+
+            int lastRecv = 0;
+            int lastSend = 0;
+
+            while (true)
+            {
+                Thread.Sleep(1000);
+
+                Console.WriteLine("Send {0}, Receive {1} per sec", (int)(Stats.send - lastSend), (int)(Stats.recv - lastRecv));
+                lastRecv = Stats.recv;
+                lastSend = Stats.send;
+            }
+            
+        }
+    }
 }

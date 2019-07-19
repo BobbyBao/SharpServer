@@ -15,15 +15,15 @@ namespace SharpServer
     public class NetworkClient
     {
         static Bootstrap bootstrap = new Bootstrap();
+        static IEventLoopGroup group;
         static List<IChannel> clientChannels = new List<IChannel>();
         public static void Init()
         {
-            var group = new MultithreadEventLoopGroup();
+            group = new MultithreadEventLoopGroup();
             bootstrap
                 .Group(group)
                 .Channel<TcpSocketChannel>()
                 .Option(ChannelOption.TcpNodelay, true)
-
                 .Handler(
                     new ActionChannelInitializer<ISocketChannel>(
                         channel =>
@@ -38,20 +38,21 @@ namespace SharpServer
                         ;
         }
 
+        public static async void Shutdown()
+        {
+            //foreach (var clientChannel in clientChannels)
+            //await clientChannel.CloseAsync();
+            await group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
+        }
+
         public static async Task Connect<T>(string ip, int port) where T : IChannelHandler, new()
         {
             while (true)
             {
                 try
                 {
-                    IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse("127.0.0.1"), 2239);
-#if TEST_PERF
-                    
-                    clientChannel.Pipeline.AddLast("echo", new PerfTestClientHandler());
-#else                    
+                    IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse("127.0.0.1"), 2239);          
                     clientChannel.Pipeline.AddLast("echo", new T());
-#endif
-
                     clientChannels.Add(clientChannel);
 
                     break;
