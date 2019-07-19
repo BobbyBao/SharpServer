@@ -118,7 +118,7 @@ namespace SharpServer
             public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
             {
                 Console.WriteLine("Exception: " + exception);
-                //context.CloseAsync();
+                context.CloseAsync();
             }
         }
     }

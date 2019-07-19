@@ -12,12 +12,7 @@ namespace SharpServer
 
         protected override void OnInit()
         {
-            NetworkClient.Init();
-        }
-
-        public override void Start()
-        {
-            OnInit();
+            NetworkClient.Init();            
         }
 
         public async void Connect<T>() where T : IChannelHandler, new()
@@ -27,16 +22,17 @@ namespace SharpServer
 
         protected override void OnShutdown()
         {
+            NetworkClient.Shutdown();
         }
     }
 
     public class ClientApp<T> : ClientApp where T : IChannelHandler, new()
     {
-        public override void Start()
+        protected override void OnRun()
         {
-            OnInit();
 
             Connect<T>();
+
         }
 
     }

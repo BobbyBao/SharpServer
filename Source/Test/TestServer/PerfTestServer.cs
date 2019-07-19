@@ -25,9 +25,9 @@
 
     public class RerfTestServer : ServerApp<PerfTestServerHandler>
     {
-        public override void Run<T>()
+        protected override void OnRun()
         {
-            Task.Run(() => base.Run<T>());
+            Task.Run(() => Server.Start<PerfTestServerHandler>(Port));
 
             var sw = new Stopwatch();
             sw.Start();
@@ -46,7 +46,6 @@
                         count += await Server.Broadcast(initialMessage);
                     });
                 }
-
 
                 if (sw.ElapsedMilliseconds >= 1000)
                 {

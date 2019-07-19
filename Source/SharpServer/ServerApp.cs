@@ -25,9 +25,9 @@ namespace SharpServer
 
     public class ServerApp<T> : ServerApp where T : IChannelHandler, new()
     {
-        public override void Start()
+        protected override void OnRun()
         {
-            Run<T>();
+            Server.Start<T>(Port).Wait();
         }
 
     }

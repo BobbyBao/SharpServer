@@ -36,10 +36,8 @@ namespace Test.Client
 
     public class PerfTestClient : ClientApp<PerfTestClientHandler>
     {
-        public override void Start()
+        protected override void OnRun()
         {
-            OnInit();
-
             for (int i = 0; i < 3000; i++)
             {
                 Task.Run(() => NetworkClient.Connect<PerfTestClientHandler>("127.0.0.1", 2239));

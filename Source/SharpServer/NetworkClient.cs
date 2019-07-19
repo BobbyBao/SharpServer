@@ -33,15 +33,15 @@ namespace SharpServer
                             pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
                             pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
 
-                            //pipeline.AddLast("echo", new EchoClientHandler());
                         }))
                         ;
         }
 
         public static async void Shutdown()
         {
-            //foreach (var clientChannel in clientChannels)
-            //await clientChannel.CloseAsync();
+            foreach (var clientChannel in clientChannels)
+                await clientChannel.CloseAsync();
+
             await group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
         }
 
@@ -59,7 +59,17 @@ namespace SharpServer
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    Console.Write(e.Message);
+
+                    if(e.InnerException != null)
+                    {
+                        Console.Write(" -- ");
+                        Console.WriteLine(e.InnerException.Message);
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                    }
 
                     await Task.Delay(5000);
                 }
