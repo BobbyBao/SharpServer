@@ -62,14 +62,16 @@ namespace SharpServer
 
         public static IChannelGroup group;
         public static ConcurrentDictionary<string, IChannelHandlerContext> channelHandlerContexts = new ConcurrentDictionary<string, IChannelHandlerContext>();
-        public async Task Broadcast(IByteBuffer byteBuffer)
+        public async Task<int> Broadcast(IByteBuffer byteBuffer)
         {
             if(group != null)
             {
                 await group.WriteAndFlushAsync(byteBuffer);                
                 Interlocked.Add(ref Stats.send, group.Count);
+                return group.Count;
             }
 
+            return 0;
         }
 
         public class MessageHandler : ChannelHandlerAdapter
