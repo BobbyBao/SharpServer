@@ -8,15 +8,31 @@ namespace SharpServer
 {
     public class ServerApp
     {
+        public int Port { get; set; } 
         public NetworkServer Server { get; set; }
-        public ServerApp()
+        public ServerApp(int port = 2239)
         {
+            Port = port;
             Server = new NetworkServer();
         }
 
-        public async Task Run<T>(int port) where T : IChannelHandler, new()
+        public virtual void Run<T>() where T : IChannelHandler, new()
         {
-            await Server.Start<T>(port);
+            Server.Start<T>(Port).Wait();
         }
+
+        public async Task Start<T>() where T : IChannelHandler, new()
+        {
+            await Server.Start<T>(Port);
+        }
+    }
+
+    public class ServerApp<T> : ServerApp where T : IChannelHandler, new()
+    {
+        public void Start()
+        {
+            Run<T>();
+        }
+
     }
 }

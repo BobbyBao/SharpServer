@@ -15,6 +15,7 @@ namespace SharpServer
     public class NetworkClient
     {
         static Bootstrap bootstrap = new Bootstrap();
+        static List<IChannel> clientChannels = new List<IChannel>();
         public static void Init()
         {
             var group = new MultithreadEventLoopGroup();
@@ -37,9 +38,32 @@ namespace SharpServer
                         ;
         }
 
-        public static async void Connect<T>(string ip, int port) where T : IChannelHandler, new()
+        public static async Task Connect<T>(string ip, int port) where T : IChannelHandler, new()
         {
-            IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse(ip), port);
+            while (true)
+            {
+                try
+                {
+                    IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse("127.0.0.1"), 2239);
+#if TEST_PERF
+                    
+                    clientChannel.Pipeline.AddLast("echo", new PerfTestClientHandler());
+#else                    
+                    clientChannel.Pipeline.AddLast("echo", new T());
+#endif
+
+                    clientChannels.Add(clientChannel);
+
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+
+                    await Task.Delay(5000);
+                }
+            }
+
         }
     }
 }

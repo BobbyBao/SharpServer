@@ -18,21 +18,6 @@ namespace Test.Client
         {
         }
 
-        public override void ChannelActive(IChannelHandlerContext context)
-        {
-            Task.Run(async () =>
-            {
-                IByteBuffer initialMessage = Unpooled.Buffer(1024);
-                initialMessage.WriteBytes(Stats.testMsg);
-
-                for (int i = 0; i < 100; i++)
-                {
-                    await context.WriteAndFlushAsync(initialMessage);
-                    Interlocked.Increment(ref Stats.send);
-                }
-            });
-        }
-
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             Interlocked.Increment(ref Stats.recv);

@@ -1,6 +1,7 @@
 ﻿namespace Test.Server
 {
     using System;
+    using System.Diagnostics;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -11,7 +12,7 @@
     /// <summary>
     /// 服务端处理事件函数
     /// </summary>
-    public class PerfTestServer : SharpServer.NetworkServer.MessageHandler
+    public class PerfTestServerHandler : SharpServer.NetworkServer.MessageHandler
     {
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
@@ -20,5 +21,39 @@
             Interlocked.Increment(ref Stats.send);
         }
 
+    }
+
+    public class RerfTestServer : ServerApp<PerfTestServerHandler>
+    {
+        public override void Run<T>()
+        {
+            Task.Run(() => base.Run<T>());
+
+            var sw = new Stopwatch();
+            sw.Start();
+
+            int lastRecv = 0;
+            int lastSend = 0;
+            while (true)
+            {
+                Task.Run(async () =>
+                {
+                    IByteBuffer initialMessage = Unpooled.Buffer(128);
+                    initialMessage.WriteBytes(Stats.testMsg);                   
+                    await Server.Broadcast(initialMessage);
+                });
+
+                if (sw.ElapsedMilliseconds >= 1000)
+                {
+                    sw.Restart();
+
+                    Console.WriteLine("Send {0}, Receive {1} per sec", (int)(Stats.send - lastSend), (int)(Stats.recv - lastRecv));
+                    lastRecv = Stats.recv;
+                    lastSend = Stats.send;
+                }
+
+                Thread.Sleep(1);
+            }
+        }
     }
 }
