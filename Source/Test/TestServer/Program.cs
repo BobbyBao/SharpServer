@@ -20,8 +20,7 @@ namespace Test.Server
         static void Main()
         {
 #if TEST_PERF
-            var svr = new RerfTestServer();
-            svr.Start();
+            new RerfTestServer().Start();
 #else
             new SharpServer.ServerApp<EchoServer>().Start();
 #endif

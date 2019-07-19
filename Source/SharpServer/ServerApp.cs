@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public class ServerApp
+    public class ServerApp : AppBase
     {
         public int Port { get; set; } 
         public NetworkServer Server { get; set; }
