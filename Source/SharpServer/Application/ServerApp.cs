@@ -16,7 +16,7 @@ namespace SharpServer
             Server = new NetworkServer();
         }
 
-        public virtual void Run<T>() where T : IChannelHandler, new()
+        public virtual void Listen<T>() where T : IChannelHandler, new()
         {
             Server.Start<T>(Port).Wait();
         }

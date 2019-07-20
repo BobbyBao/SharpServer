@@ -30,9 +30,7 @@ namespace SharpServer
     {
         protected override void OnRun()
         {
-
             Connect<T>();
-
         }
 
     }

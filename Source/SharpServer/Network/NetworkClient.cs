@@ -54,7 +54,6 @@ namespace SharpServer
                     IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse("127.0.0.1"), 2239);          
                     clientChannel.Pipeline.AddLast("echo", new T());
                     clientChannels.Add(clientChannel);
-
                     break;
                 }
                 catch (Exception e)
