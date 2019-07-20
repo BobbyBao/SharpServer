@@ -104,7 +104,23 @@
             }
 
             Console.WriteLine("System.Text.Json-Des:" + sw.ElapsedMilliseconds);
-            //Console.WriteLine(peopleList.Count);
+
+
+            sw.Restart();
+            for (int i = 0; i < count; i++)
+            {
+                var t = Utf8Json.JsonSerializer.Serialize(user);
+            }
+
+            Console.WriteLine("Utf8Json-Ser:" + sw.ElapsedMilliseconds);
+
+            sw.Restart();
+            for (int i = 0; i < count; i++)
+            {
+                var t = Utf8Json.JsonSerializer.Deserialize<User>(temp1);
+            }
+
+            Console.WriteLine("Utf8Json-Des:" + sw.ElapsedMilliseconds);
         }
 
         protected override void OnRun()

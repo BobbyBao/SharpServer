@@ -1,0 +1,1 @@
+protogen --proto_path=SRC --csharp_out=DST game_server.proto +langver=3.0

@@ -7,8 +7,8 @@ namespace SharpServer
 {
     public class ClientApp : AppBase
     {
-        public string IP { get; set; }
-        public int Port { get; set; }
+        public string IP { get; set; } = "127.0.0.1";
+        public int Port { get; set; } = 2239;
 
         protected override void OnInit()
         {

@@ -14,12 +14,7 @@ namespace SharpServer
 
         static Stats()
         {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 100; i++)
-            {
-                sb.Append('A');
-            }
-            testMsg = Encoding.UTF8.GetBytes(sb.ToString());
+            testMsg = Encoding.UTF8.GetBytes(new string('A', 100));
         }
     }
 }
