@@ -45,7 +45,7 @@ namespace SharpServer
             await group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
         }
 
-        public static async Task Connect<T>(string ip, int port) where T : IChannelHandler, new()
+        public static async Task<IChannel> Connect<T>(string ip, int port) where T : IChannelHandler, new()
         {
             while (true)
             {
@@ -54,7 +54,9 @@ namespace SharpServer
                     IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse("127.0.0.1"), 2239);          
                     clientChannel.Pipeline.AddLast("echo", new T());
                     clientChannels.Add(clientChannel);
-                    break;
+
+                    return clientChannel;
+                    
                 }
                 catch (Exception e)
                 {

@@ -5,6 +5,7 @@ using System.Text;
 namespace Test.Client
 {
     using System;
+    using System.Security.Cryptography;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -44,7 +45,22 @@ namespace Test.Client
         {
             for (int i = 0; i < 3000; i++)
             {
-                Task.Run(() => Connect<PerfTestClientHandler>());
+                Task.Run(async()=>
+                {
+                    IChannel channel = await Connect<PerfTestClientHandler>();
+
+                    for(int j= 0; j < 200; j++)
+                    {
+                        Task.Run(async () =>
+                        {
+                            IByteBuffer initialMessage = Unpooled.Buffer(128);
+                            initialMessage.WriteBytes(Stats.testMsg);
+
+                            await channel.WriteAndFlushAsync(initialMessage);
+                        });
+                    }
+                    
+                });
             }
 
             int lastRecv = 0;

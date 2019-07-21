@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public class ClientApp : AppBase
+    public class ClientApp : ServiceManager
     {
         public string IP { get; set; } = "127.0.0.1";
         public int Port { get; set; } = 2239;
@@ -15,9 +16,9 @@ namespace SharpServer
             NetworkClient.Init();            
         }
 
-        public async void Connect<T>() where T : IChannelHandler, new()
+        public async Task<IChannel> Connect<T>() where T : IChannelHandler, new()
         {
-            await NetworkClient.Connect<T>(IP, Port);
+            return await NetworkClient.Connect<T>(IP, Port);
         }
 
         protected override void OnShutdown()
@@ -30,7 +31,7 @@ namespace SharpServer
     {
         protected override void OnRun()
         {
-            Connect<T>();
+            Connect<T>().Wait();
         }
 
     }

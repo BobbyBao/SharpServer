@@ -6,8 +6,16 @@ using System.Text;
 namespace SharpServer
 {
 
-    public class AppBase
+    public class ServiceManager
     {
+        List<Service> services = new List<Service>();
+        public string DataPath { get; set; }
+
+        public ServiceManager(string dataPath = "")
+        {
+            DataPath = dataPath;
+        }
+
         public void Start()
         {
             /*

@@ -137,6 +137,7 @@
             int count = 0;
             while (true)
             {
+                /*
                 if(count < 1000000)
                 {
                     Task.Run(async () =>
@@ -145,7 +146,7 @@
                         initialMessage.WriteBytes(Stats.testMsg);
                         count += await Server.Broadcast(initialMessage);
                     });
-                }
+                }*/
 
                 if (sw.ElapsedMilliseconds >= 1000)
                 {
