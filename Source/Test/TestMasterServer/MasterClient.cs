@@ -1,44 +1,18 @@
-﻿using System;
+﻿using DotNetty.Buffers;
+using DotNetty.Transport.Channels;
+using SharpServer;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Test.Client
+namespace TestMasterServer
 {
-    using System;
-    using System.Security.Cryptography;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using DotNetty.Buffers;
-    using DotNetty.Transport.Channels;
-    using SharpServer;
-
-    public class PerfTestClientHandler : ChannelHandlerAdapter
+    public class MasterClientHandler : ChannelHandlerAdapter
     {
-        public PerfTestClientHandler()
+        public MasterClientHandler()
         {
-        }
-
-        public override void ChannelActive(IChannelHandlerContext context)
-        {
-            base.ChannelActive(context);
-        }
-
-        public override void ChannelInactive(IChannelHandlerContext context)
-        {
-            base.ChannelActive(context);
-        }
-
-        public override void ChannelRegistered(IChannelHandlerContext context)
-        {
-            base.ChannelRegistered(context);
-
-        }
-
-        public override void ChannelUnregistered(IChannelHandlerContext context)
-        {
-            
-            base.ChannelUnregistered(context);
         }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
@@ -57,9 +31,9 @@ namespace Test.Client
         }
     }
 
-    public class PerfTestClient : ClientApp<PerfTestClientHandler>
+    public class MasterClient : ClientApp<MasterClientHandler>
     {
-        public PerfTestClient()
+        public MasterClient()
         {
         }
 
@@ -67,11 +41,11 @@ namespace Test.Client
         {
             for (int i = 0; i < 3000; i++)
             {
-                Task.Run(async()=>
+                Task.Run(async () =>
                 {
-                    IChannel channel = await Connect<PerfTestClientHandler>();
+                    IChannel channel = await Connect<MasterClientHandler>();
 
-                    for(int j= 0; j < 200; j++)
+                    for (int j = 0; j < 200; j++)
                     {
                         Task.Run(async () =>
                         {
@@ -81,7 +55,7 @@ namespace Test.Client
                             await channel.WriteAndFlushAsync(initialMessage);
                         });
                     }
-                    
+
                 });
             }
 
@@ -96,7 +70,7 @@ namespace Test.Client
                 lastRecv = Stats.recv;
                 lastSend = Stats.send;
             }
-            
+
         }
     }
 }

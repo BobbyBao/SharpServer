@@ -16,14 +16,14 @@ namespace SharpServer
             Server = new NetworkServer();
         }
 
-        public virtual void Listen<T>() where T : IChannelHandler, new()
+        public virtual void Listen<T>() where T : ServerHandler, new()
         {
             Server.Start<T>(Port).Wait();
         }
 
     }
 
-    public class ServerApp<T> : ServerApp where T : IChannelHandler, new()
+    public class ServerApp<T> : ServerApp where T : ServerHandler, new()
     {
         protected override void OnRun()
         {

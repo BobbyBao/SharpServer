@@ -12,11 +12,8 @@
     using ServiceStack;
     using ServiceStack.Text;
     using SharpServer;
-
-    /// <summary>
-    /// 服务端处理事件函数
-    /// </summary>
-    public class PerfTestServerHandler : SharpServer.NetworkServer.MessageHandler
+    
+    public class PerfTestServerHandler : SharpServer.ServerHandler
     {
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
@@ -44,4 +41,5 @@
             }
         }
     }
+
 }

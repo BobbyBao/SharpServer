@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterServer", "MasterServe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serialize", "Test\Serialize\Serialize.csproj", "{7F0B71CC-52D4-4039-97F0-0319904D1473}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMasterServer", "Test\TestMasterServer\TestMasterServer.csproj", "{70757045-5CD4-4BA0-9EA9-E6922ED97922}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{7F0B71CC-52D4-4039-97F0-0319904D1473}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F0B71CC-52D4-4039-97F0-0319904D1473}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F0B71CC-52D4-4039-97F0-0319904D1473}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70757045-5CD4-4BA0-9EA9-E6922ED97922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70757045-5CD4-4BA0-9EA9-E6922ED97922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70757045-5CD4-4BA0-9EA9-E6922ED97922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70757045-5CD4-4BA0-9EA9-E6922ED97922}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{084272EF-FCCD-4BEA-B072-2AB34BC95953} = {F4A06ECD-E7D7-43F4-BE91-799A9272ED0E}
 		{2620CCF9-595F-4C6D-9728-C7178887EC22} = {F4A06ECD-E7D7-43F4-BE91-799A9272ED0E}
 		{7F0B71CC-52D4-4039-97F0-0319904D1473} = {F4A06ECD-E7D7-43F4-BE91-799A9272ED0E}
+		{70757045-5CD4-4BA0-9EA9-E6922ED97922} = {F4A06ECD-E7D7-43F4-BE91-799A9272ED0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19AB20C4-592D-4DCB-9B5E-C11FAF30DF93}

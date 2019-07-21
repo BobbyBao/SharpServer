@@ -9,7 +9,7 @@
     /// <summary>
     /// 服务端处理事件函数
     /// </summary>
-    public class EchoServer : SharpServer.NetworkServer.MessageHandler
+    public class EchoServer : SharpServer.ServerHandler
     {
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {

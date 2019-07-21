@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharpServer\SharpServer.csproj" />
+    <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharpServer\SharpServer.csproj" />
   </ItemGroup>
 
 </Project>
