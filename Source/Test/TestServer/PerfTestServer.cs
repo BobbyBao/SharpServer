@@ -4,7 +4,6 @@
     using System.Diagnostics;
     using System.IO;
     using System.Text;
-    using System.Text.Json.Serialization;
     using System.Threading;
     using System.Threading.Tasks;
     using DotNetty.Buffers;
@@ -13,7 +12,7 @@
     using ServiceStack.Text;
     using SharpServer;
     
-    public class PerfTestServerHandler : SharpServer.ServerHandler
+    public class PerfTestServerHandler : ServerHandler
     {
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
@@ -28,7 +27,7 @@
     {
         protected override void OnRun()
         {
-            Task.Run(() => Server.Start<PerfTestServerHandler>(Port));
+            DoListen();
 
             int lastRecv = 0;
             int lastSend = 0;

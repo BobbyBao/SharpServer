@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public class ServerHandler : ChannelHandlerAdapter
+    public class ServerHandler : BaseChannelHandler
     {
         public IChannelGroup group;
         public ConcurrentDictionary<string, IChannelHandlerContext> channelHandlerContexts = new ConcurrentDictionary<string, IChannelHandlerContext>();
@@ -45,24 +45,11 @@ namespace SharpServer
             base.ChannelUnregistered(context);
         }
 
-        public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
-
-        public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
-        {
-            Console.WriteLine("Exception: " + exception);
-            context.CloseAsync();
-        }
-
         public async Task<int> Broadcast(IByteBuffer byteBuffer)
         {
-            if (group != null)
-            {
-                await group.WriteAndFlushAsync(byteBuffer);
-                Interlocked.Add(ref Stats.send, group.Count);
-                return group.Count;
-            }
-
-            return 0;
+            await group.WriteAndFlushAsync(byteBuffer);
+            Interlocked.Add(ref Stats.send, group.Count);
+            return group.Count;
         }
     }
 }

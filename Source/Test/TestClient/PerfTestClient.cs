@@ -13,7 +13,7 @@ namespace Test.Client
     using DotNetty.Transport.Channels;
     using SharpServer;
 
-    public class PerfTestClientHandler : ChannelHandlerAdapter
+    public class PerfTestClientHandler : BaseChannelHandler
     {
         public PerfTestClientHandler()
         {
@@ -22,23 +22,18 @@ namespace Test.Client
         public override void ChannelActive(IChannelHandlerContext context)
         {
             base.ChannelActive(context);
-        }
 
-        public override void ChannelInactive(IChannelHandlerContext context)
-        {
-            base.ChannelActive(context);
-        }
+            for (int j = 0; j < 200; j++)
+            {
+                Task.Run(async () =>
+                {
+                    IByteBuffer initialMessage = Unpooled.Buffer(128);
+                    initialMessage.WriteBytes(Stats.testMsg);
 
-        public override void ChannelRegistered(IChannelHandlerContext context)
-        {
-            base.ChannelRegistered(context);
+                    await context.WriteAndFlushAsync(initialMessage);
+                });
+            }
 
-        }
-
-        public override void ChannelUnregistered(IChannelHandlerContext context)
-        {
-            
-            base.ChannelUnregistered(context);
         }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
@@ -48,13 +43,6 @@ namespace Test.Client
             Interlocked.Increment(ref Stats.send);
         }
 
-        public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
-
-        public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
-        {
-            Console.WriteLine("Exception: " + exception);
-            context.CloseAsync();
-        }
     }
 
     public class PerfTestClient : ClientApp<PerfTestClientHandler>
@@ -67,22 +55,7 @@ namespace Test.Client
         {
             for (int i = 0; i < 3000; i++)
             {
-                Task.Run(async()=>
-                {
-                    IChannel channel = await Connect<PerfTestClientHandler>();
-
-                    for(int j= 0; j < 200; j++)
-                    {
-                        Task.Run(async () =>
-                        {
-                            IByteBuffer initialMessage = Unpooled.Buffer(128);
-                            initialMessage.WriteBytes(Stats.testMsg);
-
-                            await channel.WriteAndFlushAsync(initialMessage);
-                        });
-                    }
-                    
-                });
+                DoConnect();
             }
 
             int lastRecv = 0;

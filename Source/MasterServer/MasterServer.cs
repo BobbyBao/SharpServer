@@ -22,7 +22,7 @@ namespace MasterServer
     {
         protected override void OnRun()
         {
-            Task.Run(() => Server.Start<MasterServerHandler>(Port));
+            DoListen();
 
             int lastRecv = 0;
             int lastSend = 0;

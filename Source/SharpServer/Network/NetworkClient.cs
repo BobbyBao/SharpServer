@@ -20,21 +20,7 @@ namespace SharpServer
         public static void Init()
         {
             group = new MultithreadEventLoopGroup();
-            bootstrap
-                .Group(group)
-                .Channel<TcpSocketChannel>()
-                .Option(ChannelOption.TcpNodelay, true)
-                .Handler(
-                    new ActionChannelInitializer<ISocketChannel>(
-                        channel =>
-                        {
-                            IChannelPipeline pipeline = channel.Pipeline;
-                            pipeline.AddLast(new LoggingHandler());
-                            pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
-                            pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
-
-                        }))
-                        ;
+            bootstrap.Group(group);
         }
 
         public static async void Shutdown()
@@ -45,17 +31,30 @@ namespace SharpServer
             await group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
         }
 
-        public static async Task<IChannel> Connect<T>(string ip, int port) where T : IChannelHandler, new()
+        public static async Task<IChannelHandler> Connect<T>(string ip, int port) where T : IChannelHandler, new()
         {
             while (true)
             {
                 try
                 {
-                    IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse(ip), 2239);          
-                    clientChannel.Pipeline.AddLast("echo", new T());
-                    clientChannels.Add(clientChannel);
+                    T handler = default;
+                    bootstrap
+                   .Channel<TcpSocketChannel>()
+                   .Option(ChannelOption.TcpNodelay, true)
+                   .Handler(new ActionChannelInitializer<ISocketChannel>(
+                       channel =>
+                       {
+                           IChannelPipeline pipeline = channel.Pipeline;
+                           pipeline.AddLast(new LoggingHandler());
+                           pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
+                           pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
+                           handler = new T();
+                           pipeline.AddLast("echo", handler);
+                       }));
 
-                    return clientChannel;
+                    IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse(ip), port);                    
+                    clientChannels.Add(clientChannel);
+                    return handler;
                     
                 }
                 catch (Exception e)

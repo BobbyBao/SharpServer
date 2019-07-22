@@ -9,26 +9,12 @@ using System.Threading.Tasks;
 
 namespace TestMasterServer
 {
-    public class MasterClientHandler : ChannelHandlerAdapter
+    public class MasterClientHandler : BaseChannelHandler
     {
         public MasterClientHandler()
         {
         }
 
-        public override void ChannelRead(IChannelHandlerContext context, object message)
-        {
-            Interlocked.Increment(ref Stats.recv);
-            context.WriteAsync(message);
-            Interlocked.Increment(ref Stats.send);
-        }
-
-        public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
-
-        public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
-        {
-            Console.WriteLine("Exception: " + exception);
-            context.CloseAsync();
-        }
     }
 
     public class MasterClient : ClientApp<MasterClientHandler>
@@ -41,22 +27,7 @@ namespace TestMasterServer
         {
             for (int i = 0; i < 3000; i++)
             {
-                Task.Run(async () =>
-                {
-                    IChannel channel = await Connect<MasterClientHandler>();
-
-                    for (int j = 0; j < 200; j++)
-                    {
-                        Task.Run(async () =>
-                        {
-                            IByteBuffer initialMessage = Unpooled.Buffer(128);
-                            initialMessage.WriteBytes(Stats.testMsg);
-
-                            await channel.WriteAndFlushAsync(initialMessage);
-                        });
-                    }
-
-                });
+                DoConnect();
             }
 
             int lastRecv = 0;

@@ -16,6 +16,13 @@ namespace SharpServer
             Server = new NetworkServer();
         }
 
+        protected override void OnShutdown()
+        {
+            Server?.Shutdown();
+
+            base.OnShutdown();
+        }
+
         public virtual void Listen<T>() where T : ServerHandler, new()
         {
             Server.Start<T>(Port).Wait();
@@ -25,6 +32,11 @@ namespace SharpServer
 
     public class ServerApp<T> : ServerApp where T : ServerHandler, new()
     {
+        public void DoListen()
+        {
+            Task.Run(() => Listen<T>());
+        }
+
         protected override void OnRun()
         {
             Server.Start<T>(Port).Wait();
