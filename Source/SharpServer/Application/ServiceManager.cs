@@ -6,14 +6,19 @@ using System.Text;
 namespace SharpServer
 {
 
+    public interface IService
+    {
+        void Init();
+        void Shutdown();
+    }
+
     public class ServiceManager
     {
-        List<Service> services = new List<Service>();
-        public string DataPath { get; set; }
+        List<IService> services = new List<IService>();
 
-        public ServiceManager(string dataPath = "")
+        public ServiceManager(string dataPath = "../../../../Data/")
         {
-            DataPath = dataPath;
+            Config.DataPath = dataPath;
         }
 
         public void Start()
@@ -36,11 +41,22 @@ namespace SharpServer
             var json = Utf8Json.JsonSerializer.PrettyPrint(t);
             File.WriteAllText("test.cfg", json);*/
 
+
+            foreach(var service in services)
+            {
+                service.Init();
+            }
+
             OnInit();
 
             OnRun();
 
             OnShutdown();
+
+            foreach (var service in services)
+            {
+                service.Shutdown();
+            }
         }
 
 

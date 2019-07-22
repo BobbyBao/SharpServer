@@ -14,6 +14,9 @@ namespace SharpServer
         {
             Port = port;
             Server = new NetworkServer();
+
+            var cfg = Config.Global;
+            var cfgApp = Config.App;
         }
 
         protected override void OnShutdown()

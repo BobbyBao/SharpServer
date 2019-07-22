@@ -4,4 +4,7 @@ using System.Text;
 
 namespace SharpServer
 {
+    public class Log
+    {
+    }
 }
