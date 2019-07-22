@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpServer
 {
-    public class BaseChannelHandler : ChannelHandlerAdapter
+    public class BaseHandler : ChannelHandlerAdapter
     {
         IChannelHandlerContext context;
         public override void ChannelActive(IChannelHandlerContext context)

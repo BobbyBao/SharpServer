@@ -13,7 +13,7 @@ namespace Test.Client
     using DotNetty.Transport.Channels;
     using SharpServer;
 
-    public class PerfTestClientHandler : BaseChannelHandler
+    public class PerfTestClientHandler : BaseHandler
     {
         public PerfTestClientHandler()
         {

@@ -10,46 +10,39 @@ using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public class ServerHandler : BaseChannelHandler
+    public class ServerHandler : BaseHandler
     {
-        public IChannelGroup group;
-        public ConcurrentDictionary<string, IChannelHandlerContext> channelHandlerContexts = new ConcurrentDictionary<string, IChannelHandlerContext>();
+        public NetworkServer server;
 
         public override void ChannelRegistered(IChannelHandlerContext context)
         {
             base.ChannelRegistered(context);
 
-            IChannelGroup g = group;
+            IChannelGroup g = server.group;
             if (g == null)
             {
                 lock (this)
                 {
-                    if (group == null)
+                    if (server.group == null)
                     {
-                        g = group = new DefaultChannelGroup(context.Executor);
+                        g = server.group = new DefaultChannelGroup(context.Executor);
                     }
                 }
             }
             var id = context.Channel.Id.AsLongText();
-            channelHandlerContexts.TryAdd(id, context);
-            group.Add(context.Channel);
-            Console.WriteLine("ChannelRegistered|" + channelHandlerContexts.Count);
+            server.channelHandlerContexts.TryAdd(id, context);
+            server.group.Add(context.Channel);
+            Console.WriteLine("ChannelRegistered|" + server.channelHandlerContexts.Count);
         }
 
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
-            Console.WriteLine("ChannelUnregistered|" + channelHandlerContexts.Count);
-            group.Remove(context.Channel);
-            channelHandlerContexts.TryRemove(context.Channel.Id.AsLongText(), out IChannelHandlerContext channelHandlerContext);
+            Console.WriteLine("ChannelUnregistered|" + server.channelHandlerContexts.Count);
+            server.group.Remove(context.Channel);
+            server.channelHandlerContexts.TryRemove(context.Channel.Id.AsLongText(), out IChannelHandlerContext channelHandlerContext);
 
             base.ChannelUnregistered(context);
         }
 
-        public async Task<int> Broadcast(IByteBuffer byteBuffer)
-        {
-            await group.WriteAndFlushAsync(byteBuffer);
-            Interlocked.Add(ref Stats.send, group.Count);
-            return group.Count;
-        }
     }
 }

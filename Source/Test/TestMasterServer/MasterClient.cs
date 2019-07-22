@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TestMasterServer
 {
-    public class MasterClientHandler : BaseChannelHandler
+    public class MasterClientHandler : BaseHandler
     {
         public MasterClientHandler()
         {

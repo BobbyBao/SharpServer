@@ -19,6 +19,9 @@ namespace SharpServer
         IEventLoopGroup bossGroup;
         IEventLoopGroup workerGroup;
 
+        public IChannelGroup group;
+        public ConcurrentDictionary<string, IChannelHandlerContext> channelHandlerContexts = new ConcurrentDictionary<string, IChannelHandlerContext>();
+
         public async Task Start<T>(int port) where T : ServerHandler, new() 
         {
             var dispatcher = new DispatcherEventLoopGroup();
@@ -41,7 +44,10 @@ namespace SharpServer
                             pipeline.AddLast(new LoggingHandler("SRV-CONN"));
                             pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
                             pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
-                            pipeline.AddLast("handler", new T());
+
+                            T handler = new T();
+                            handler.server = this;
+                            pipeline.AddLast("handler", handler);
                         }));
 
                 IChannel boundChannel = await serverBootstrap.BindAsync(port);
@@ -59,6 +65,13 @@ namespace SharpServer
                     workerGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1))
                 );
             }
+        }
+
+        public async Task<int> Broadcast(IByteBuffer byteBuffer)
+        {
+            await group.WriteAndFlushAsync(byteBuffer);
+            Interlocked.Add(ref Stats.send, group.Count);
+            return group.Count;
         }
 
         public async void Shutdown()
