@@ -13,9 +13,9 @@ namespace Test.Client
     using DotNetty.Transport.Channels;
     using SharpServer;
 
-    public class PerfTestClientHandler : BaseHandler
+    public class PingPongClientHandler : BaseHandler
     {
-        public PerfTestClientHandler()
+        public PingPongClientHandler()
         {
         }
 
@@ -45,9 +45,9 @@ namespace Test.Client
 
     }
 
-    public class PerfTestClient : ClientApp<PerfTestClientHandler>
+    public class PingPongClient : ClientApp<PingPongClientHandler>
     {
-        public PerfTestClient()
+        public PingPongClient()
         {
         }
 

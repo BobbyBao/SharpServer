@@ -12,7 +12,7 @@
     using ServiceStack.Text;
     using SharpServer;
     
-    public class PerfTestServerHandler : ServerHandler
+    public class PingPongServerHandler : ServerHandler
     {
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
@@ -23,7 +23,7 @@
 
     }
 
-    public class RerfTestServer : ServerApp<PerfTestServerHandler>
+    public class PingPongServer : ServerApp<PingPongServerHandler>
     {
         protected override void OnRun()
         {

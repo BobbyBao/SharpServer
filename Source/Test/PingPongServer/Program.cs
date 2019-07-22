@@ -5,7 +5,7 @@ namespace Test.Server
     {
         static void Main()
         {
-            new RerfTestServer().Start();
+            new PingPongServer().Start();
         }
     }
 }

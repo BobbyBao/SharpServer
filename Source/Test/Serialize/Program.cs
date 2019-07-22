@@ -42,7 +42,7 @@ namespace Serialize
             string temp1 = System.Text.Json.Serialization.JsonSerializer.ToString(user, options); //"{\"Id\": 2,\"Name\": \"xxc\",\"AddTime\": \"2016-09-07 10:10:10\",\"Age\": \"15\",\"Status\": \"true\"}";
 
             Console.WriteLine(temp1);
-            temp = user.ToJsv();// TypeSerializer.SerializeToString(user);
+            temp = user.ToJsv();
 
             File.WriteAllText("test.json", temp);
 
@@ -62,7 +62,6 @@ namespace Serialize
 
             Console.WriteLine("ServiceStack-Des:" + sw.ElapsedMilliseconds);
 
-            //对象转为json 字符串
             sw.Restart();
             for (int i = 0; i < count; i++)
             {
@@ -71,7 +70,6 @@ namespace Serialize
 
             Console.WriteLine("System.Text.Json-Ser:" + sw.ElapsedMilliseconds);
 
-            //json字符串转为集合
             sw.Restart();
             for (int i = 0; i < count; i++)
             {

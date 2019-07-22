@@ -2,6 +2,6 @@
 {
     static class Program
     {
-        static void Main() => new PerfTestClient().Start();
+        static void Main() => new PingPongClient().Start();
     }
 }

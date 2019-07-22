@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29102.190
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestServer", "Test\TestServer\TestServer.csproj", "{084272EF-FCCD-4BEA-B072-2AB34BC95953}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPongServer", "Test\PingPongServer\PingPongServer.csproj", "{084272EF-FCCD-4BEA-B072-2AB34BC95953}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestClient", "Test\TestClient\TestClient.csproj", "{2620CCF9-595F-4C6D-9728-C7178887EC22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPongClient", "Test\PingPongClient\PingPongClient.csproj", "{2620CCF9-595F-4C6D-9728-C7178887EC22}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpServer", "SharpServer\SharpServer.csproj", "{02987D20-2D5F-4142-821B-383F6AC0FF2E}"
 EndProject
@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F4A06ECD-E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterServer", "MasterServer\MasterServer.csproj", "{8534096F-6D5F-4A39-986E-44BA69A7080B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serialize", "Test\Serialize\Serialize.csproj", "{7F0B71CC-52D4-4039-97F0-0319904D1473}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serialize", "Test\Serialize\Serialize.csproj", "{7F0B71CC-52D4-4039-97F0-0319904D1473}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMasterServer", "Test\TestMasterServer\TestMasterServer.csproj", "{70757045-5CD4-4BA0-9EA9-E6922ED97922}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterClient", "Test\MasterClient\MasterClient.csproj", "{70757045-5CD4-4BA0-9EA9-E6922ED97922}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
