@@ -29,6 +29,13 @@ namespace SharpServer
             workerGroup = new WorkerEventLoopGroup(dispatcher);
         }
 
+        public static async void Shutdown()
+        {
+            await Task.WhenAll(
+                bossGroup?.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
+                workerGroup?.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
+        }
+
         public async Task Start<T>(int port, Action<IChannel> initializer) where T : ServerHandler, new() 
         {
             try
@@ -65,12 +72,6 @@ namespace SharpServer
             return group.Count;
         }
 
-        public async void Shutdown()
-        {
-            await Task.WhenAll(
-                bossGroup?.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),               
-                workerGroup?.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
-        }
 
 
     }

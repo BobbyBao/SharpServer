@@ -28,7 +28,7 @@ namespace SharpServer
 
         protected override void OnShutdown()
         {
-            Server?.Shutdown();
+            NetworkServer.Shutdown();
 
             base.OnShutdown();
         }
@@ -40,15 +40,6 @@ namespace SharpServer
 
         protected virtual void InitChannel(IChannel channel)
         {
-            /*
-            IChannelPipeline pipeline = channel.Pipeline;
-            pipeline.AddLast(new LoggingHandler("SRV-CONN"));
-            pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
-            pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
-
-            T handler = new T();
-            handler.server = this;
-            pipeline.AddLast("handler", handler);*/
         }
 
     }

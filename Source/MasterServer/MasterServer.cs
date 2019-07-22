@@ -24,14 +24,9 @@ namespace MasterServer
         {
             DoListen();
 
-            int lastRecv = 0;
-            int lastSend = 0;
             while (true)
             {
                 Thread.Sleep(1000);
-                Console.WriteLine("Send {0}, Receive {1} per sec", (int)(Stats.send - lastSend), (int)(Stats.recv - lastRecv));
-                lastRecv = Stats.recv;
-                lastSend = Stats.send;
             }
         }
     }
