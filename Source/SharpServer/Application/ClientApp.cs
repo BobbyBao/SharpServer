@@ -16,9 +16,9 @@ namespace SharpServer
             NetworkClient.Init();            
         }
 
-        public async Task<IChannelHandler> Connect<T>() where T : IChannelHandler, new()
+        public async Task Connect<T>() where T : IChannelHandler, new()
         {
-            return await NetworkClient.Connect<T>(IP, Port);
+            await NetworkClient.Connect<T>(IP, Port);
         }
 
         protected override void OnShutdown()

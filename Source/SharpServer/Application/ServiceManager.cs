@@ -23,25 +23,6 @@ namespace SharpServer
 
         public void Start()
         {
-            /*
-            var cfg = new Config
-            {
-                ["IP"] = "127.0.0.1",
-                ["Port"] = 2239,
-
-                ["Log"] = new ConfigSection
-                {
-                    ["LogFile"] = "Log.log"
-                }
-
-            };
-
-
-            var t = Utf8Json.JsonSerializer.Serialize(cfg);
-            var json = Utf8Json.JsonSerializer.PrettyPrint(t);
-            File.WriteAllText("test.cfg", json);*/
-
-
             foreach(var service in services)
             {
                 service.Init();

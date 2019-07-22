@@ -31,13 +31,12 @@ namespace SharpServer
             await group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
         }
 
-        public static async Task<IChannelHandler> Connect<T>(string ip, int port) where T : IChannelHandler, new()
+        public static async Task Connect<T>(string ip, int port) where T : IChannelHandler, new()
         {
             while (true)
             {
                 try
                 {
-                    T handler = default;
                     bootstrap
                    .Channel<TcpSocketChannel>()
                    .Option(ChannelOption.TcpNodelay, true)
@@ -48,13 +47,13 @@ namespace SharpServer
                            pipeline.AddLast(new LoggingHandler());
                            pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
                            pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
-                           handler = new T();
-                           pipeline.AddLast("echo", handler);
+                           
+                           pipeline.AddLast("echo", new T());
                        }));
 
                     IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse(ip), port);                    
                     clientChannels.Add(clientChannel);
-                    return handler;
+                    return;
                     
                 }
                 catch (Exception e)

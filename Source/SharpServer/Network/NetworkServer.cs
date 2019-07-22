@@ -59,7 +59,6 @@ namespace SharpServer
             }
             finally
             {
-                // 释放指定工作组线程
                 await Task.WhenAll( // (7)
                     bossGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
                     workerGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1))
