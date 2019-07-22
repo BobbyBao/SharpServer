@@ -1,4 +1,7 @@
-﻿using DotNetty.Transport.Channels;
+﻿using DotNetty.Codecs;
+using DotNetty.Handlers.Logging;
+using DotNetty.Transport.Channels;
+using DotNetty.Transport.Channels.Sockets;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,7 +21,11 @@ namespace SharpServer
 
         public async Task Connect<T>() where T : IChannelHandler, new()
         {
-            await NetworkClient.Connect<T>(IP, Port);
+            await NetworkClient.Connect<T>(IP, Port, InitChannel);
+        }
+
+        protected virtual void InitChannel(ISocketChannel channel)
+        {
         }
 
         protected override void OnShutdown()
@@ -29,6 +36,16 @@ namespace SharpServer
 
     public class ClientApp<T> : ClientApp where T : IChannelHandler, new()
     {
+        protected override void InitChannel(ISocketChannel channel)
+        {
+            IChannelPipeline pipeline = channel.Pipeline;
+            pipeline.AddLast(new LoggingHandler());
+            pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
+            pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
+
+            pipeline.AddLast("echo", new T());
+        }
+
         public void DoConnect()
         {
             Task.Run(async () =>

@@ -16,18 +16,21 @@ namespace SharpServer
 {
     public class NetworkServer
     {
-        IEventLoopGroup bossGroup;
-        IEventLoopGroup workerGroup;
+        static IEventLoopGroup bossGroup;
+        static IEventLoopGroup workerGroup;
 
         public IChannelGroup group;
         public ConcurrentDictionary<string, IChannelHandlerContext> channelHandlerContexts = new ConcurrentDictionary<string, IChannelHandlerContext>();
 
-        public async Task Start<T>(int port) where T : ServerHandler, new() 
+        public static void Init()
         {
             var dispatcher = new DispatcherEventLoopGroup();
             bossGroup = dispatcher;
             workerGroup = new WorkerEventLoopGroup(dispatcher);
+        }
 
+        public async Task Start<T>(int port, Action<IChannel> initializer) where T : ServerHandler, new() 
+        {
             try
             {
                 var serverBootstrap = new ServerBootstrap();
@@ -37,18 +40,7 @@ namespace SharpServer
                 serverBootstrap
                     .Option(ChannelOption.SoBacklog, 100)
                     .Handler(new LoggingHandler("SRV-LSTN"))                    
-                    .ChildHandler(new ActionChannelInitializer<IChannel>(
-                        channel =>
-                        {
-                            IChannelPipeline pipeline = channel.Pipeline;
-                            pipeline.AddLast(new LoggingHandler("SRV-CONN"));
-                            pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
-                            pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
-
-                            T handler = new T();
-                            handler.server = this;
-                            pipeline.AddLast("handler", handler);
-                        }));
+                    .ChildHandler(new ActionChannelInitializer<IChannel>(initializer));
 
                 IChannel boundChannel = await serverBootstrap.BindAsync(port);
 
@@ -59,7 +51,7 @@ namespace SharpServer
             }
             finally
             {
-                await Task.WhenAll( // (7)
+                await Task.WhenAll( 
                     bossGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
                     workerGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1))
                 );

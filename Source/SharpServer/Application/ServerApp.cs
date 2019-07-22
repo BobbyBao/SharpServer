@@ -1,4 +1,6 @@
-﻿using DotNetty.Transport.Channels;
+﻿using DotNetty.Codecs;
+using DotNetty.Handlers.Logging;
+using DotNetty.Transport.Channels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +21,11 @@ namespace SharpServer
             var cfgApp = Config.App;
         }
 
+        protected override void OnInit()
+        {
+            NetworkServer.Init();
+        }
+
         protected override void OnShutdown()
         {
             Server?.Shutdown();
@@ -28,21 +35,47 @@ namespace SharpServer
 
         public virtual void Listen<T>() where T : ServerHandler, new()
         {
-            Server.Start<T>(Port).Wait();
+            Server.Start<T>(Port, InitChannel).Wait();
+        }
+
+        protected virtual void InitChannel(IChannel channel)
+        {
+            /*
+            IChannelPipeline pipeline = channel.Pipeline;
+            pipeline.AddLast(new LoggingHandler("SRV-CONN"));
+            pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
+            pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
+
+            T handler = new T();
+            handler.server = this;
+            pipeline.AddLast("handler", handler);*/
         }
 
     }
 
     public class ServerApp<T> : ServerApp where T : ServerHandler, new()
     {
+        protected override void InitChannel(IChannel channel)
+        {
+            IChannelPipeline pipeline = channel.Pipeline;
+            pipeline.AddLast(new LoggingHandler("SRV-CONN"));
+            pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
+            pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
+
+            T handler = new T();
+            handler.server = Server;
+            pipeline.AddLast("handler", handler);
+        }
+
         public void DoListen()
         {
             Task.Run(() => Listen<T>());
         }
 
+
         protected override void OnRun()
         {
-            Server.Start<T>(Port).Wait();
+            Listen<T>();
         }
 
     }
