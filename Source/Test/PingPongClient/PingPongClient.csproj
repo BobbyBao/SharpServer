@@ -6,7 +6,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <OutputType>Exe</OutputType>
-    <AssemblyName>TestClient</AssemblyName>
+    <AssemblyName>PingPongClient</AssemblyName>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

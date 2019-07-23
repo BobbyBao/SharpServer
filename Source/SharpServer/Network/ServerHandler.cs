@@ -13,6 +13,9 @@ namespace SharpServer
     public class ServerHandler : BaseHandler
     {
         public NetworkServer server;
+        public ServerHandler(bool autoRelease = true) : base(autoRelease)
+        {
+        }
 
         public override void ChannelRegistered(IChannelHandlerContext context)
         {

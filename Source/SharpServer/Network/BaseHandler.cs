@@ -1,13 +1,22 @@
-﻿using DotNetty.Transport.Channels;
+﻿using DotNetty.Buffers;
+using DotNetty.Transport.Channels;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SharpServer
 {
-    public class BaseHandler : ChannelHandlerAdapter
+    public delegate void MessageHandler(object args);
+
+    public class BaseHandler : SimpleChannelInboundHandler<IByteBuffer>
     {
         IChannelHandlerContext context;
+        ConcurrentDictionary<int, MessageHandler> messageHandlers = new ConcurrentDictionary<int, MessageHandler>();
+        public BaseHandler(bool autoRelease = true) : base(autoRelease)
+        {
+        }
+
         public override void ChannelActive(IChannelHandlerContext context)
         {
             base.ChannelActive(context);
@@ -30,7 +39,7 @@ namespace SharpServer
             base.ChannelUnregistered(context);
         }
 
-        public override void ChannelRead(IChannelHandlerContext context, object message)
+        protected override void ChannelRead0(IChannelHandlerContext context, IByteBuffer message)
         {
         }
 

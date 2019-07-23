@@ -14,6 +14,10 @@
     
     public class PingPongServerHandler : ServerHandler
     {
+        public PingPongServerHandler()
+        {
+        }
+
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             Interlocked.Increment(ref Stats.recv);
