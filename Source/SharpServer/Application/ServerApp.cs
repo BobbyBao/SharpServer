@@ -19,6 +19,8 @@ namespace SharpServer
 
             var cfg = Config.Global;
             var cfgApp = Config.App;
+
+            AddService<Log>();
         }
 
         protected override void OnInit()
@@ -50,11 +52,15 @@ namespace SharpServer
         {
             IChannelPipeline pipeline = channel.Pipeline;
             pipeline.AddLast(new LoggingHandler("SRV-CONN"));
-            pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
-            pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
+            //pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
+            //pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
+            pipeline.AddLast("framing-enc", new MsgEncoder());
+            pipeline.AddLast("framing-dec", new MsgDecoder());
 
-            T handler = new T();
-            handler.server = Server;
+            T handler = new T
+            {
+                server = Server
+            };
             pipeline.AddLast("handler", handler);
         }
 

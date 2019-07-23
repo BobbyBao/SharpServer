@@ -7,9 +7,9 @@ using System.Text;
 
 namespace SharpServer
 {
-    public class MsgEncoder : MessageToByteEncoder<byte[]>
+    public class MsgEncoder : MessageToByteEncoder<IByteBuffer>
     {
-        protected override void Encode(IChannelHandlerContext context, byte[] message, IByteBuffer output)
+        protected override void Encode(IChannelHandlerContext context, IByteBuffer message, IByteBuffer output)
         {
             output.WriteBytes(message);
         }

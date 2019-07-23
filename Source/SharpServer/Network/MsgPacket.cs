@@ -24,8 +24,9 @@ namespace SharpServer
 
         public MsgPacket(IByteBuffer byteBuf)
         {
-            //byteBuf.ReadableBytes
-            //this.data = data;
+            int len = byteBuf.GetInt(0);
+            this.data = new byte[len];
+            byteBuf.ReadBytes(this.data);
         }
 
         public MsgPacket(int msgType, byte[] body)

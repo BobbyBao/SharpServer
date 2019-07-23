@@ -15,10 +15,23 @@ namespace SharpServer
     public class ServiceManager
     {
         List<IService> services = new List<IService>();
-
+        bool inited = false;
         public ServiceManager(string dataPath = "../../../../Data/")
         {
             Config.DataPath = dataPath;
+        }
+
+        public T AddService<T>() where T : IService, new()
+        {
+            T service = new T();
+            services.Add(service);
+
+            if(inited)
+            {
+                service.Init();
+            }
+
+            return service;
         }
 
         public void Start()
@@ -27,6 +40,8 @@ namespace SharpServer
             {
                 service.Init();
             }
+
+            inited = true;
 
             OnInit();
 

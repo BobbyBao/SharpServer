@@ -27,10 +27,7 @@ namespace Test.Client
             {
                 Task.Run(async () =>
                 {
-                    IByteBuffer initialMessage = Unpooled.Buffer(128);
-                    initialMessage.WriteBytes(Stats.testMsg);
-
-                    await context.WriteAndFlushAsync(initialMessage);
+                    await Send(0, Stats.testMsg);
                 });
             }
 
