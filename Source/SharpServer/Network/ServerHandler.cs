@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public class ServerHandler : BaseHandler
+    public class ServerHandler : MsgHandler
     {
         public NetworkServer server;
         public ServerHandler(bool autoRelease = true) : base(autoRelease)

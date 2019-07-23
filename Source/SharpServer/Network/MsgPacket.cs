@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetty.Buffers;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -19,6 +20,12 @@ namespace SharpServer
         public MsgPacket(byte[] data)
         {
             this.data = data;
+        }
+
+        public MsgPacket(IByteBuffer byteBuf)
+        {
+            //byteBuf.ReadableBytes
+            //this.data = data;
         }
 
         public MsgPacket(int msgType, byte[] body)

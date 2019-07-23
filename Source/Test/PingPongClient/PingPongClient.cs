@@ -13,7 +13,7 @@ namespace Test.Client
     using DotNetty.Transport.Channels;
     using SharpServer;
 
-    public class PingPongClientHandler : BaseHandler
+    public class PingPongClientHandler : MsgHandler
     {
         public PingPongClientHandler()
         {
