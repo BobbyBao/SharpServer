@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpServer
 {
-    public class Log : IService
+    public class Log : AbstractService
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public Log()
@@ -36,11 +36,7 @@ namespace SharpServer
            
         }
 
-        public void Init()
-        {
-        }
-
-        public void Shutdown()
+        public override void Shutdown()
         {
             NLog.LogManager.Shutdown();
         }

@@ -6,12 +6,6 @@ using System.Text;
 namespace SharpServer
 {
 
-    public interface IService
-    {
-        void Init();
-        void Shutdown();
-    }
-
     public class ServiceManager
     {
         List<IService> services = new List<IService>();
