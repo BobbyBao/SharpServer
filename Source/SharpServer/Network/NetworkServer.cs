@@ -45,7 +45,7 @@ namespace SharpServer
                 serverBootstrap.Channel<TcpServerChannel>();
 
                 serverBootstrap
-                    .Option(ChannelOption.SoBacklog, 100)
+                    .Option(ChannelOption.SoBacklog, 1024)
                     .Handler(new LoggingHandler("SRV-LSTN"))                    
                     .ChildHandler(new ActionChannelInitializer<IChannel>(initializer));
 

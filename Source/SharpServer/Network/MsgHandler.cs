@@ -15,7 +15,10 @@ namespace SharpServer
     {
         IChannelHandlerContext context;
         ConcurrentDictionary<int, MsgProcessor> messageHandlers = new ConcurrentDictionary<int, MsgProcessor>();
-        
+
+        public event Action<IChannelHandlerContext> channelRegistered;
+        public event Action<IChannelHandlerContext> channelUnregistered;
+
         public MsgHandler(bool autoRelease = true) : base(autoRelease)
         {
         }
@@ -80,10 +83,14 @@ namespace SharpServer
         public override void ChannelRegistered(IChannelHandlerContext context)
         {
             base.ChannelRegistered(context);
+
+            channelRegistered?.Invoke(context);
         }
 
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
+            channelUnregistered?.Invoke(context);
+
             base.ChannelUnregistered(context);
         }
 
