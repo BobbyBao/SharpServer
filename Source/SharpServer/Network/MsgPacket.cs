@@ -31,8 +31,8 @@ namespace SharpServer
 
         public byte[] data;
 
-        public int Len => Unsafe.As<byte, int>(ref data[0]);
-        public int MsgID => Unsafe.As<byte, int>(ref data[MSG_TYPE_SIZE]);
+        public ref int Len => ref Unsafe.As<byte, int>(ref data[0]);
+        public ref int MsgID => ref Unsafe.As<byte, int>(ref data[MSG_TYPE_SIZE]);
 
         public MsgPacket(byte[] data)
         {

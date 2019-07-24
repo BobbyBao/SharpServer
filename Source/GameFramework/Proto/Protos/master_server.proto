@@ -1,5 +1,5 @@
 syntax = "proto2";
-package MasterServer;
+package master_server;
 
 enum message_type
 {   
