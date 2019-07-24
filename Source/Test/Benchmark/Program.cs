@@ -19,6 +19,8 @@ namespace Benchmark
     {
         static void Main(string[] args)
         {
+            //var test = new TestJson();
+
             BenchmarkRunner.Run<TestJson>();
         }
     }

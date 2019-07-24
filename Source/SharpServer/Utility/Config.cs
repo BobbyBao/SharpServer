@@ -7,11 +7,11 @@ using System.Text;
 namespace SharpServer
 {
 
-    public class ConfigSection : Dictionary<string, object>
+    public static class ConfigHelper
     {
-        public T GetValue<T>(string key, T defValue = default)
+        public static T GetValue<T>(this Dictionary<string, object> section, string key, T defValue = default)
         {
-            if (TryGetValue(key, out object val))
+            if (section.TryGetValue(key, out object val))
             {
                 return (T)val;
             }
@@ -19,14 +19,24 @@ namespace SharpServer
             return defValue;
         }
 
-        public void SetValue<T>(string key, T val)
+        public static int GetValue(this Dictionary<string, object> section, string key, int defValue = default)
         {
-            this[key] = val;
+            if (section.TryGetValue(key, out object val))
+            {
+                return (int)(double)val;
+            }
+
+            return defValue;
+        }
+
+        public static void SetValue<T>(this Dictionary<string, object> section, string key, T val)
+        {
+            section[key] = val;
         }
 
     }
 
-    public class Config : ConfigSection
+    public class Config : Dictionary<string, object>
     {
         public static string DataPath { get; set; }
 
@@ -76,9 +86,9 @@ namespace SharpServer
             }
         }
 
-        public ConfigSection GetSection(string name)
+        public Dictionary<string, object> GetSection(string name)
         {
-            return GetValue<ConfigSection>(name);
+            return this.GetValue<Dictionary<string, object>>(name);
         }
 
     }

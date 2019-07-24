@@ -80,7 +80,7 @@ namespace SharpServer
             base.ChannelActive(context);
             connected?.Invoke(this);
             this.context = context;
-            Log.Info("Channel connected: {0}", channelID);
+            //Log.Info("Channel connected: {0}", channelID);
         }
 
         public override void ChannelInactive(IChannelHandlerContext context)
@@ -88,7 +88,7 @@ namespace SharpServer
             base.ChannelActive(context);
 
             disconnected?.Invoke(this);
-            Log.Info("Channel disconnected: {0}", channelID);
+            //Log.Info("Channel disconnected: {0}", channelID);
 
             this.context = null;
         }
@@ -99,14 +99,14 @@ namespace SharpServer
 
             channelID = context.Channel.Id.AsShortText();
 
-            Log.Info("Channel registered: {0}", channelID);
+            //Log.Info("Channel registered: {0}", channelID);
         }
 
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
             base.ChannelUnregistered(context);
 
-            Log.Info("Channel unregistered: {0}", channelID);
+            //Log.Info("Channel unregistered: {0}", channelID);
             channelID = "";
         }
 

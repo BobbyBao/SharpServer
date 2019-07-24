@@ -3,6 +3,9 @@ using BenchmarkDotNet.Configs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+#if NETCOREAPP3_0
+using System.Text.Json.Serialization;
+#endif
 
 namespace Benchmark
 {
@@ -24,11 +27,15 @@ namespace Benchmark
         User user = new User() { Id = 1, Name = "tyh", AddTime = DateTime.Now, Age = 15, Status = true };
         string json;
 
+#if NETCOREAPP3_0
+        JsonSerializerOptions options;
+#endif
+
         public TestJson()
         {
 
 #if NETCOREAPP3_0
-            JsonSerializerOptions options = new JsonSerializerOptions()
+            options = new JsonSerializerOptions()
             {
                 WriteIndented = true,                                   //格式化json字符串
                 AllowTrailingCommas = true,                             //可以结尾有逗号
