@@ -3,9 +3,9 @@ namespace Test.Server
 {
     class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
-            new PingPongServer().Start();
+            new PingPongServer(args).Start();
         }
     }
 }

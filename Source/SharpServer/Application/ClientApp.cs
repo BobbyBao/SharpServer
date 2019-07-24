@@ -19,18 +19,28 @@ namespace SharpServer
             NetworkClient.Init();            
         }
 
-        public async Task Connect<T>() where T : IChannelHandler, new()
-        {
-            await NetworkClient.Connect<T>(IP, Port, InitChannel);
-        }
-
         protected virtual void InitChannel(ISocketChannel channel)
         {
             IChannelPipeline pipeline = channel.Pipeline;
             pipeline.AddLast(new LoggingHandler());
             pipeline.AddLast("framing-enc", new MsgEncoder());
             pipeline.AddLast("framing-dec", new MsgDecoder());
-            pipeline.AddLast("echo", new MsgHandler());
+            pipeline.AddLast("echo", CreateHandler());
+        }
+
+        protected virtual IChannelHandler CreateHandler()
+        {
+            return new MsgHandler();
+        }
+
+        public async Task Connect()
+        {
+            await NetworkClient.Connect(IP, Port, InitChannel);
+        }
+
+        protected override void OnRun()
+        {
+            Connect().Wait();
         }
 
         protected override void OnShutdown()
@@ -41,27 +51,11 @@ namespace SharpServer
 
     public class ClientApp<T> : ClientApp where T : IChannelHandler, new()
     {
-        protected override void InitChannel(ISocketChannel channel)
+        protected override IChannelHandler CreateHandler()
         {
-            IChannelPipeline pipeline = channel.Pipeline;
-            pipeline.AddLast(new LoggingHandler());
-            pipeline.AddLast("framing-enc", new MsgEncoder());
-            pipeline.AddLast("framing-dec", new MsgDecoder());
-            pipeline.AddLast("echo", new T());
+            return new T();
         }
 
-        public void DoConnect()
-        {
-            Task.Run(async () =>
-            {
-                await Connect<T>();
-            });
-        }
-
-        protected override void OnRun()
-        {
-            Connect<T>().Wait();
-        }
 
     }
 }

@@ -31,7 +31,7 @@ namespace SharpServer
             await group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
         }
 
-        public static async Task Connect<T>(string ip, int port, Action<ISocketChannel> initializer) where T : IChannelHandler, new()
+        public static async Task Connect(string ip, int port, Action<ISocketChannel> initializer)
         {
             while (true)
             {

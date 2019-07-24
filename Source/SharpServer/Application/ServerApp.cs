@@ -10,21 +10,48 @@ namespace SharpServer
 {
     public class ServerApp : ServiceManager
     {
-        public int Port { get; set; } 
+        public int Port { get; set; } = 2239;
         public NetworkServer Server { get; set; }
-        public ServerApp(int port = 2239)
+        public ServerApp(string[] args)
         {
-            Port = port;
             Server = new NetworkServer();
 
             var cfg = Config.Global;
-            var cfgApp = Config.App;
+            var appCfg = Config.App;
+
+            Port = appCfg.GetValue("port", 2239);
 
         }
 
         protected override void OnInit()
         {
             NetworkServer.Init();
+        }
+
+        protected virtual void InitChannel(IChannel channel)
+        {
+            IChannelPipeline pipeline = channel.Pipeline;
+            pipeline.AddLast(new LoggingHandler("SRV-CONN"));
+            pipeline.AddLast("framing-enc", new MsgEncoder());
+            pipeline.AddLast("framing-dec", new MsgDecoder());
+
+            IChannelHandler handler = CreateHandler();
+            pipeline.AddLast("handler", handler);
+        }
+
+        protected override void OnRun()
+        {
+            Listen().Wait();
+        }
+
+        public async virtual Task Listen()
+        {
+            await Server.Start(Port, InitChannel);
+        }
+
+        protected virtual IChannelHandler CreateHandler()
+        {
+            return new MsgHandler();
         }
 
         protected override void OnShutdown()
@@ -34,45 +61,19 @@ namespace SharpServer
             base.OnShutdown();
         }
 
-        public virtual void Listen<T>() where T : ServerHandler, new()
-        {
-            Server.Start<T>(Port, InitChannel).Wait();
-        }
-
-        protected virtual void InitChannel(IChannel channel)
-        {
-        }
-
     }
 
-    public class ServerApp<T> : ServerApp where T : ServerHandler, new()
+    public class ServerApp<T> : ServerApp where T : MsgHandler, new()
     {
-        protected override void InitChannel(IChannel channel)
+        public ServerApp(string[] args) : base(args)
         {
-            IChannelPipeline pipeline = channel.Pipeline;
-            pipeline.AddLast(new LoggingHandler("SRV-CONN"));
-            //pipeline.AddLast("framing-enc", new LengthFieldPrepender(4));
-            //pipeline.AddLast("framing-dec", new LengthFieldBasedFrameDecoder(ushort.MaxValue, 0, 4, 0, 4));
-            pipeline.AddLast("framing-enc", new MsgEncoder());
-            pipeline.AddLast("framing-dec", new MsgDecoder());
-
-            T handler = new T
-            {
-                server = Server
-            };
-            pipeline.AddLast("handler", handler);
         }
 
-        public void DoListen()
+        protected override IChannelHandler CreateHandler()
         {
-            Task.Run(() => Listen<T>());
+            return new T();
         }
 
-
-        protected override void OnRun()
-        {
-            Listen<T>();
-        }
 
     }
 }

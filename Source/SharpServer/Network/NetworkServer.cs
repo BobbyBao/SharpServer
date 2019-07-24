@@ -36,7 +36,7 @@ namespace SharpServer
                 workerGroup?.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
         }
 
-        public async Task Start<T>(int port, Action<IChannel> initializer) where T : ServerHandler, new() 
+        public async Task Start(int port, Action<IChannel> initializer)
         {
             try
             {
@@ -52,6 +52,7 @@ namespace SharpServer
                 IChannel boundChannel = await serverBootstrap.BindAsync(port);
 
                 Log.Info("Wait for the clients...");
+
                 Console.ReadLine();
 
                 await boundChannel.CloseAsync();
@@ -73,6 +74,33 @@ namespace SharpServer
         }
 
 
+        void ChannelRegistered(IChannelHandlerContext context)
+        {
+            IChannelGroup g = group;
+            if (g == null)
+            {
+                lock (this)
+                {
+                    if (group == null)
+                    {
+                        g = group = new DefaultChannelGroup(context.Executor);
+                    }
+                }
+            }
+            var id = context.Channel.Id.AsLongText();
+            channelHandlerContexts.TryAdd(id, context);
+            group.Add(context.Channel);
+            Log.Info("ChannelRegistered: " + id);
+        }
+
+        void ChannelUnregistered(IChannelHandlerContext context)
+        {
+            var id = context.Channel.Id.AsLongText();
+            Log.Info("ChannelUnregistered: " + id);
+            group.Remove(context.Channel);
+            channelHandlerContexts.TryRemove(id, out IChannelHandlerContext channelHandlerContext);
+
+        }
 
     }
 }

@@ -8,21 +8,15 @@ using System.Threading.Tasks;
 
 namespace MasterServer
 {
-    public class MasterServerHandler : SharpServer.ServerHandler
+    public class MasterServer : ServerApp
     {
-        public override void ChannelRead(IChannelHandlerContext context, object message)
+        public MasterServer(string[] args) : base(args)
         {
-            context.WriteAsync(message);
-
         }
 
-    }
-
-    public class MasterServer : ServerApp<MasterServerHandler>
-    {
         protected override void OnRun()
         {
-            DoListen();
+            Task.Run(Listen);
 
             while (true)
             {

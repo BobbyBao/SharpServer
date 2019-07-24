@@ -9,15 +9,7 @@ using System.Threading.Tasks;
 
 namespace TestMasterServer
 {
-    public class MasterClientHandler : MsgHandler
-    {
-        public MasterClientHandler()
-        {
-        }
-
-    }
-
-    public class MasterClient : ClientApp<MasterClientHandler>
+    public class MasterClient : ClientApp
     {
         public MasterClient()
         {
@@ -27,7 +19,7 @@ namespace TestMasterServer
         {
             for (int i = 0; i < 3000; i++)
             {
-                DoConnect();
+                Task.Run(Connect);
             }
 
             while (true)

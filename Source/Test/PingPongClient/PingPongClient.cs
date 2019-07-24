@@ -52,7 +52,7 @@ namespace Test.Client
         {
             for (int i = 0; i < 3000; i++)
             {
-                DoConnect();
+                Task.Run(Connect);
             }
 
             int lastRecv = 0;

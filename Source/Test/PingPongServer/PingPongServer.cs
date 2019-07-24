@@ -12,7 +12,7 @@
     using ServiceStack.Text;
     using SharpServer;
     
-    public class PingPongServerHandler : ServerHandler
+    public class PingPongServerHandler : MsgHandler
     {
         public PingPongServerHandler()
         {
@@ -29,9 +29,13 @@
 
     public class PingPongServer : ServerApp<PingPongServerHandler>
     {
+        public PingPongServer(string[] args) : base(args)
+        {
+        }
+
         protected override void OnRun()
         {
-            DoListen();
+            Task.Run(Listen);
 
             int lastRecv = 0;
             int lastSend = 0;
