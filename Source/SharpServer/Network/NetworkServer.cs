@@ -51,7 +51,7 @@ namespace SharpServer
 
                 IChannel boundChannel = await serverBootstrap.BindAsync(port);
 
-                Console.WriteLine("Wait the client...");
+                Log.Info("Wait for the clients...");
                 Console.ReadLine();
 
                 await boundChannel.CloseAsync();

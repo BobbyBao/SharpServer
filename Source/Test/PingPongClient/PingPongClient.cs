@@ -62,7 +62,7 @@ namespace Test.Client
             {
                 Thread.Sleep(1000);
 
-                Console.WriteLine("Send {0}, Receive {1} per sec", (int)(Stats.send - lastSend), (int)(Stats.recv - lastRecv));
+                Log.Info("Send {0}, Receive {1} per sec", (int)(Stats.send - lastSend), (int)(Stats.recv - lastRecv));
                 lastRecv = Stats.recv;
                 lastSend = Stats.send;
             }

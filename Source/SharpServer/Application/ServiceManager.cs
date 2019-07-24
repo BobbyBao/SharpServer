@@ -19,6 +19,8 @@ namespace SharpServer
         public ServiceManager(string dataPath = "../../../../Data/")
         {
             Config.DataPath = dataPath;
+
+            AddService<Log>();
         }
 
         public T AddService<T>() where T : IService, new()

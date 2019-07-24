@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,6 +8,34 @@ namespace SharpServer
     public class Log : IService
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        public Log()
+        {
+            var config = new NLog.Config.LoggingConfiguration();
+
+            var assembly = System.Reflection.Assembly.GetEntryAssembly();
+            var name = assembly.GetName().Name;
+
+            // Targets where to log to: File and Console
+            var logfile = new NLog.Targets.FileTarget(name)
+            {
+                FileName = "${basedir}/logs/${logger}/${shortdate}.log",
+                Layout = "${longdate} ${aspnet-request:servervariable=URL}[${uppercase:${level}}] ${message}"
+            };
+
+            var logconsole = new NLog.Targets.ConsoleTarget("logconsole")
+            {
+                Layout = "${longdate} ${aspnet-request:servervariable=URL}[${uppercase:${level}}] ${message}"
+            };
+
+            // Rules for mapping loggers to targets            
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+
+            // Apply config           
+            NLog.LogManager.Configuration = config;
+           
+        }
+
         public void Init()
         {
         }

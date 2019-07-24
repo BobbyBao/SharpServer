@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public delegate void MsgProcessor(object msg);
+    public delegate void MsgProcessor(ArraySegment<byte> buf);
 
     public class MsgHandler : SimpleChannelInboundHandler<IByteBuffer>
     {
@@ -32,9 +32,9 @@ namespace SharpServer
             message.WriteBytes(body);
         }
 
-        public T Deserialize<T>(IByteBuffer byteBuf, int offset, int size)
+        public T Deserialize<T>(byte[] byteBuf, int offset, int size)
         {
-            MemoryStream ms = new MemoryStream(byteBuf.Array, offset, size);
+            MemoryStream ms = new MemoryStream(byteBuf, offset, size);
             return ProtoBuf.Serializer.Deserialize<T>(ms);
         }
 
@@ -54,6 +54,15 @@ namespace SharpServer
             Encode(message, msgType, body);
 
             await context.WriteAndFlushAsync(message);
+        }
+
+        public void Register<T>(int msgType, Action<T> handler)
+        {
+            messageHandlers.TryAdd(msgType, (buf) =>
+            {
+                var msg = Deserialize<T>(buf.Array, buf.Offset, buf.Count);
+                handler.Invoke(msg);
+            });
         }
 
         public override void ChannelActive(IChannelHandlerContext context)
@@ -83,8 +92,8 @@ namespace SharpServer
             int msgType = message.GetInt(4);
             if(messageHandlers.TryGetValue(msgType, out var handler))
             {
-
-                //handler.Invoke();
+                int msgLen = message.GetInt(0);
+                handler.Invoke(message.GetIoBuffer(8, msgLen - 8));
             }
         }
 

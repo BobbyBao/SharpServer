@@ -6,6 +6,23 @@ using System.Text;
 
 namespace SharpServer
 {
+    public interface IMsgHeader
+    {
+        int MsgLen { get; }
+        int MsgType { get; }
+    }
+
+    public struct MsgHead : IMsgHeader
+    {
+        public int len;
+        public int msgType;
+
+        public int MsgLen => len;
+        public int MsgType => msgType;
+    }
+
+
+
     public struct MsgPacket
     {
         public const int MSG_SIZE_SIZE = 4;

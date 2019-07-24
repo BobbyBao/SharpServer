@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F4A06ECD-E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterServer", "MasterServer\MasterServer.csproj", "{8534096F-6D5F-4A39-986E-44BA69A7080B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serialize", "Test\Serialize\Serialize.csproj", "{7F0B71CC-52D4-4039-97F0-0319904D1473}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "Test\Benchmark\Benchmark.csproj", "{7F0B71CC-52D4-4039-97F0-0319904D1473}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterClient", "Test\MasterClient\MasterClient.csproj", "{70757045-5CD4-4BA0-9EA9-E6922ED97922}"
 EndProject

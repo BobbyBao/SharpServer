@@ -20,7 +20,6 @@ namespace SharpServer
             var cfg = Config.Global;
             var cfgApp = Config.App;
 
-            AddService<Log>();
         }
 
         protected override void OnInit()
