@@ -1,19 +1,20 @@
-message Person {   
-  required string name = 1;   
-  optional int32 id = 2;   
-  optional string email = 3;   
-  enum phone_type {   
-    mobile = 0;   
-    home = 1;   
-    work = 2;   
-  }   
-  message phone_number {   
-    required string number = 1;   
-    optional phone_type type = 2 [default = home];   
-  }   
-  repeated phone_number phone = 4;   
-  repeated int32 test_packed = 5 [packed = true];  
-  optional int32 test_deprecated = 6 [deprecated = true];  
-  optional int32 foreach = 7;  
-}  
-message opaque_message_list { repeated bytes messages_list=1; }  
+syntax = "proto2";
+package MasterServer;
+
+enum message_type
+{   
+    user_login_req = 101;   
+    user_login_res = 102;   
+}
+
+message user_login_req_t
+{
+    required    string     user_id = 1;               // 用户id(int64)
+    required    string  user_name = 2;                // 用户名
+}
+
+message user_login_res_t
+{
+    required    int32    res = 1;                    //
+    required    string    user_id = 2;               // 用户id(int64)
+}

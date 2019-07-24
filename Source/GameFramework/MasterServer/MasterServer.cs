@@ -1,5 +1,4 @@
 ﻿using DotNetty.Transport.Channels;
-using ProtoModel;
 using SharpServer;
 using System;
 using System.Collections.Generic;
@@ -19,13 +18,21 @@ namespace MasterServer
 
         protected override void OnConnect(MsgHandler handler)
         {
-            var p = new Person
+            this.handler = handler;
+
+            handler.Register<UserLoginReqT>((int)MessageType.UserLoginReq, HandleUserLoginReq);
+        }
+
+        void HandleUserLoginReq(UserLoginReqT msg)
+        {
+            Log.Info("User {0}, login", msg.UserName);
+
+            var res = new UserLoginResT
             {
-                Name = "Test Person"
+                Res = 0
             };
 
-            handler.Send(101, p);
-            this.handler = handler;
+            handler.Send((int)MessageType.UserLoginRes, res);
         }
 
         protected override void OnRun()
@@ -36,16 +43,6 @@ namespace MasterServer
             {
                 Thread.Sleep(1000);
 
-                if(handler != null)
-                {
-                    var p = new Person
-                    {
-                        Name = "Test Person"
-                    };
-
-                    handler.Send(101, p);
-
-                }
             }
         }
     }

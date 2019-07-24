@@ -18,8 +18,11 @@ namespace SharpServer
 
             var cfg = Config.Global;
             var appCfg = Config.App;
+
             if(appCfg != null)
-            Port = appCfg.GetValue("port", 2239);
+            {
+            //    Port = appCfg.GetValue("Port", 2239);
+            }
 
         }
 
@@ -36,8 +39,8 @@ namespace SharpServer
             pipeline.AddLast("framing-dec", new MsgDecoder());
 
             MsgHandler handler = CreateHandler();
-            handler.channelRegistered += OnConnect;
-            handler.channelUnregistered += OnDisconnect;
+            handler.connected += OnConnect;
+            handler.disconnected += OnDisconnect;
             pipeline.AddLast("handler", handler);
         }
 

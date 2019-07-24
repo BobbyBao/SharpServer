@@ -3,113 +3,46 @@
 // Input: Person.proto
 
 #pragma warning disable CS1591, CS0612, CS3021, IDE1006
-namespace ProtoModel
+namespace MasterServer
 {
 
-    [global::ProtoBuf.ProtoContract()]
-    public partial class Person : global::ProtoBuf.IExtensible
+    [global::ProtoBuf.ProtoContract(Name = @"user_login_req_t")]
+    public partial class UserLoginReqT : global::ProtoBuf.IExtensible
     {
         private global::ProtoBuf.IExtension __pbn__extensionData;
         global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
             => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
 
-        [global::ProtoBuf.ProtoMember(1, Name = @"name", IsRequired = true)]
-        public string Name { get; set; }
+        [global::ProtoBuf.ProtoMember(1, Name = @"user_id", IsRequired = true)]
+        public string UserId { get; set; }
 
-        [global::ProtoBuf.ProtoMember(2, Name = @"id")]
-        public int Id
-        {
-            get { return __pbn__Id.GetValueOrDefault(); }
-            set { __pbn__Id = value; }
-        }
-        public bool ShouldSerializeId() => __pbn__Id != null;
-        public void ResetId() => __pbn__Id = null;
-        private int? __pbn__Id;
-
-        [global::ProtoBuf.ProtoMember(3, Name = @"email")]
-        [global::System.ComponentModel.DefaultValue("")]
-        public string Email
-        {
-            get { return __pbn__Email ?? ""; }
-            set { __pbn__Email = value; }
-        }
-        public bool ShouldSerializeEmail() => __pbn__Email != null;
-        public void ResetEmail() => __pbn__Email = null;
-        private string __pbn__Email;
-
-        [global::ProtoBuf.ProtoMember(4, Name = @"phone")]
-        public global::System.Collections.Generic.List<PhoneNumber> Phones { get; } = new global::System.Collections.Generic.List<PhoneNumber>();
-
-        [global::ProtoBuf.ProtoMember(5, Name = @"test_packed", IsPacked = true)]
-        public int[] TestPackeds { get; set; }
-
-        [global::ProtoBuf.ProtoMember(6, Name = @"test_deprecated")]
-        [global::System.Obsolete]
-        public int TestDeprecated
-        {
-            get { return __pbn__TestDeprecated.GetValueOrDefault(); }
-            set { __pbn__TestDeprecated = value; }
-        }
-        public bool ShouldSerializeTestDeprecated() => __pbn__TestDeprecated != null;
-        public void ResetTestDeprecated() => __pbn__TestDeprecated = null;
-        private int? __pbn__TestDeprecated;
-
-        [global::ProtoBuf.ProtoMember(7, Name = @"foreach")]
-        public int Foreach
-        {
-            get { return __pbn__Foreach.GetValueOrDefault(); }
-            set { __pbn__Foreach = value; }
-        }
-        public bool ShouldSerializeForeach() => __pbn__Foreach != null;
-        public void ResetForeach() => __pbn__Foreach = null;
-        private int? __pbn__Foreach;
-
-        [global::ProtoBuf.ProtoContract(Name = @"phone_number")]
-        public partial class PhoneNumber : global::ProtoBuf.IExtensible
-        {
-            private global::ProtoBuf.IExtension __pbn__extensionData;
-            global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-                => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
-
-            [global::ProtoBuf.ProtoMember(1, Name = @"number", IsRequired = true)]
-            public string Number { get; set; }
-
-            [global::ProtoBuf.ProtoMember(2, Name = @"type")]
-            [global::System.ComponentModel.DefaultValue(Person.PhoneType.Home)]
-            public Person.PhoneType Type
-            {
-                get { return __pbn__Type ?? Person.PhoneType.Home; }
-                set { __pbn__Type = value; }
-            }
-            public bool ShouldSerializeType() => __pbn__Type != null;
-            public void ResetType() => __pbn__Type = null;
-            private Person.PhoneType? __pbn__Type;
-
-        }
-
-        [global::ProtoBuf.ProtoContract(Name = @"phone_type")]
-        public enum PhoneType
-        {
-            [global::ProtoBuf.ProtoEnum(Name = @"mobile")]
-            Mobile = 0,
-            [global::ProtoBuf.ProtoEnum(Name = @"home")]
-            Home = 1,
-            [global::ProtoBuf.ProtoEnum(Name = @"work")]
-            Work = 2,
-        }
+        [global::ProtoBuf.ProtoMember(2, Name = @"user_name", IsRequired = true)]
+        public string UserName { get; set; }
 
     }
 
-    [global::ProtoBuf.ProtoContract(Name = @"opaque_message_list")]
-    public partial class OpaqueMessageList : global::ProtoBuf.IExtensible
+    [global::ProtoBuf.ProtoContract(Name = @"user_login_res_t")]
+    public partial class UserLoginResT : global::ProtoBuf.IExtensible
     {
         private global::ProtoBuf.IExtension __pbn__extensionData;
         global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
             => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
 
-        [global::ProtoBuf.ProtoMember(1, Name = @"messages_list")]
-        public global::System.Collections.Generic.List<byte[]> MessagesLists { get; } = new global::System.Collections.Generic.List<byte[]>();
+        [global::ProtoBuf.ProtoMember(1, Name = @"res", IsRequired = true)]
+        public int Res { get; set; }
 
+        [global::ProtoBuf.ProtoMember(2, Name = @"user_id", IsRequired = true)]
+        public string UserId { get; set; }
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"message_type")]
+    public enum MessageType
+    {
+        [global::ProtoBuf.ProtoEnum(Name = @"user_login_req")]
+        UserLoginReq = 101,
+        [global::ProtoBuf.ProtoEnum(Name = @"user_login_res")]
+        UserLoginRes = 102,
     }
 
 }

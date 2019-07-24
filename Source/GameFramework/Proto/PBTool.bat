@@ -15,7 +15,8 @@ echo -------------------------------------------------------------
 for /f "delims=" %%i in ('dir /b "%SOURCE_PATH%\*.proto"') do (
     
     echo ×ª»»£º%%i to %%~ni.cs
-    %PROTOGEN_PATH% %%i --proto_path=%SOURCE_PATH% --csharp_out=%TARGET_PATH% --package=ProtoModel
+    %PROTOGEN_PATH% %%i --proto_path=%SOURCE_PATH% --csharp_out=%TARGET_PATH%
+
     
 )
  

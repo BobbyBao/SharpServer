@@ -1,6 +1,6 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
-using ProtoModel;
+using MasterServer;
 using SharpServer;
 using System;
 using System.Collections.Generic;
@@ -16,25 +16,35 @@ namespace TestMasterServer
         {
         }
 
-        protected override void OnConnect(MsgHandler context)
+        protected override void OnConnect(MsgHandler handler)
         {
-            context.Register<Person>(101, Test);
+            handler.Register<UserLoginResT>((int)MessageType.UserLoginRes, HandleUserLoginRes);
+
+            var req = new UserLoginReqT
+            {
+                UserName = "Test"
+            };
+
+            handler.Send((int)MessageType.UserLoginReq, req);
         }
 
-        public void Test(Person msg)
+        void HandleUserLoginRes(UserLoginResT msg)
         {
-            Log.Info(msg.Name);
+            if(msg.Res == 0)
+            {
+                Log.Info("User {0}, login succ.", msg.UserId);
+            }
+            else
+            {
+                Log.Info("User {0}, login failed!", msg.UserId);
+            }
         }
 
         protected override void OnRun()
         {
             //for (int i = 0; i < 3000; i++)
             {
-                Task.Run(async () =>
-                {
-                    await Connect();
-
-                });
+                Task.Run(Connect);
             }
 
             while (true)

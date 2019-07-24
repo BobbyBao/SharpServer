@@ -13,11 +13,12 @@ namespace SharpServer
 
     public class MsgHandler : SimpleChannelInboundHandler<IByteBuffer>
     {
+        public string channelID;
         public IChannelHandlerContext context;
-        ConcurrentDictionary<int, MsgProcessor> messageHandlers = new ConcurrentDictionary<int, MsgProcessor>();
+        ConcurrentDictionary<int, MsgProcessor> msgHandlers = new ConcurrentDictionary<int, MsgProcessor>();
 
-        public event Action<MsgHandler> channelRegistered;
-        public event Action<MsgHandler> channelUnregistered;
+        public event Action<MsgHandler> connected;
+        public event Action<MsgHandler> disconnected;
 
         public MsgHandler(bool autoRelease = true) : base(autoRelease)
         {
@@ -41,15 +42,19 @@ namespace SharpServer
             return ProtoBuf.Serializer.Deserialize<T>(ms);
         }
 
-        public async Task Send<T>(int msgType, T obj)
+        public void Send<T>(int msgType, T obj)
         {
-            MemoryStream ms = new MemoryStream();
-            ProtoBuf.Serializer.Serialize(ms, obj);
-            int len = (int)ms.Position;
-            IByteBuffer byteBuf = Unpooled.Buffer(len + 8);
-            EncodeHead(byteBuf, msgType, len);
-            /*await*/ byteBuf.WriteBytes(ms.ToArray());
-            await context.WriteAndFlushAsync(byteBuf);
+            Task.Run(async () =>
+            {
+                MemoryStream ms = new MemoryStream();
+                ProtoBuf.Serializer.Serialize(ms, obj);
+                int len = (int)ms.Position;
+                IByteBuffer byteBuf = Unpooled.Buffer(len + 8);
+                EncodeHead(byteBuf, msgType, len);
+                byteBuf.WriteBytes(ms.ToArray());
+                await context.WriteAndFlushAsync(byteBuf);
+                //Log.Info("Send : {0}", len);
+            });
         }
 
         public async Task Send(int msgType, byte[] body)
@@ -58,11 +63,12 @@ namespace SharpServer
             Encode(message, msgType, body);
 
             await context.WriteAndFlushAsync(message);
+            //Log.Info("Send bytes: {0}", body.Length);
         }
 
         public void Register<T>(int msgType, Action<T> handler)
         {
-            messageHandlers.TryAdd(msgType, (buf) =>
+            msgHandlers.TryAdd(msgType, (buf) =>
             {
                 var msg = Deserialize<T>(buf.Array, buf.Offset, buf.Count);
                 handler.Invoke(msg);
@@ -72,12 +78,18 @@ namespace SharpServer
         public override void ChannelActive(IChannelHandlerContext context)
         {
             base.ChannelActive(context);
+            connected?.Invoke(this);
             this.context = context;
+            Log.Info("Channel connected: {0}", channelID);
         }
 
         public override void ChannelInactive(IChannelHandlerContext context)
         {
             base.ChannelActive(context);
+
+            disconnected?.Invoke(this);
+            Log.Info("Channel disconnected: {0}", channelID);
+
             this.context = null;
         }
 
@@ -85,24 +97,24 @@ namespace SharpServer
         {
             base.ChannelRegistered(context);
 
-            channelRegistered?.Invoke(this);
+            channelID = context.Channel.Id.AsShortText();
+
+            Log.Info("Channel registered: {0}", channelID);
         }
 
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
-            channelUnregistered?.Invoke(this);
-
             base.ChannelUnregistered(context);
+
+            Log.Info("Channel unregistered: {0}", channelID);
+            channelID = "";
         }
 
-        protected override void ChannelRead0(IChannelHandlerContext context, IByteBuffer message)
+        public override void ChannelRead(IChannelHandlerContext context, object message)
         {
-            int msgType = message.GetInt(4);
-            if(messageHandlers.TryGetValue(msgType, out var handler))
-            {
-                int msgLen = message.GetInt(0);
-                handler.Invoke(message.GetIoBuffer(8, msgLen - 8));
-            }
+            //Log.Info("ChannelRead" + message.ToString());
+
+            base.ChannelRead(context, message);
         }
 
         public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
@@ -112,5 +124,16 @@ namespace SharpServer
             Log.Info(exception, "");
             context.CloseAsync();
         }
+
+        protected override void ChannelRead0(IChannelHandlerContext context, IByteBuffer message)
+        {
+            int msgType = message.GetInt(4);
+            if (msgHandlers.TryGetValue(msgType, out var handler))
+            {
+                int msgLen = message.GetInt(0);
+                handler.Invoke(message.GetIoBuffer(8, msgLen - 8));
+            }
+        }
+
     }
 }

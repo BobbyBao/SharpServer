@@ -27,8 +27,8 @@ namespace SharpServer
             pipeline.AddLast("framing-dec", new MsgDecoder());
 
             var handler = CreateHandler();
-            handler.channelRegistered += OnConnect;
-            handler.channelUnregistered += OnDisconnect;
+            handler.connected += OnConnect;
+            handler.disconnected += OnDisconnect;
 
             pipeline.AddLast("handler", handler);
         }
