@@ -71,7 +71,7 @@ namespace SharpServer
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Log.Info(e, "");
                 return null;
             }
         }

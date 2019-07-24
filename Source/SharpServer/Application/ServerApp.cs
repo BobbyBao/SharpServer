@@ -18,7 +18,7 @@ namespace SharpServer
 
             var cfg = Config.Global;
             var appCfg = Config.App;
-
+            if(appCfg != null)
             Port = appCfg.GetValue("port", 2239);
 
         }
@@ -35,7 +35,9 @@ namespace SharpServer
             pipeline.AddLast("framing-enc", new MsgEncoder());
             pipeline.AddLast("framing-dec", new MsgDecoder());
 
-            IChannelHandler handler = CreateHandler();
+            MsgHandler handler = CreateHandler();
+            handler.channelRegistered += OnConnect;
+            handler.channelUnregistered += OnDisconnect;
             pipeline.AddLast("handler", handler);
         }
 
@@ -49,9 +51,17 @@ namespace SharpServer
             await Server.Start(Port, InitChannel);
         }
 
-        protected virtual IChannelHandler CreateHandler()
+        protected virtual MsgHandler CreateHandler()
         {
             return new MsgHandler();
+        }
+
+        protected virtual void OnConnect(MsgHandler context)
+        {
+        }
+
+        protected virtual void OnDisconnect(MsgHandler context)
+        {
         }
 
         protected override void OnShutdown()
@@ -69,7 +79,7 @@ namespace SharpServer
         {
         }
 
-        protected override IChannelHandler CreateHandler()
+        protected override MsgHandler CreateHandler()
         {
             return new T();
         }

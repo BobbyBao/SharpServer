@@ -1,4 +1,5 @@
 ﻿using DotNetty.Transport.Channels;
+using ProtoModel;
 using SharpServer;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,19 @@ namespace MasterServer
         {
         }
 
+        MsgHandler handler;
+
+        protected override void OnConnect(MsgHandler handler)
+        {
+            var p = new Person
+            {
+                Name = "Test Person"
+            };
+
+            handler.Send(101, p);
+            this.handler = handler;
+        }
+
         protected override void OnRun()
         {
             Task.Run(Listen);
@@ -21,6 +35,17 @@ namespace MasterServer
             while (true)
             {
                 Thread.Sleep(1000);
+
+                if(handler != null)
+                {
+                    var p = new Person
+                    {
+                        Name = "Test Person"
+                    };
+
+                    handler.Send(101, p);
+
+                }
             }
         }
     }

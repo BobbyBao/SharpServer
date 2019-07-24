@@ -37,6 +37,7 @@ namespace SharpServer
             {
                 try
                 {
+                    Log.Info("Connecting {0}:{1}!", ip, port);
                     bootstrap
                    .Channel<TcpSocketChannel>()
                    .Option(ChannelOption.TcpNodelay, true)
@@ -49,17 +50,7 @@ namespace SharpServer
                 }
                 catch (Exception e)
                 {
-                    Console.Write(e.Message);
-
-                    if(e.InnerException != null)
-                    {
-                        Console.Write(" -- ");
-                        Console.WriteLine(e.InnerException.Message);
-                    }
-                    else
-                    {
-                        Console.WriteLine();
-                    }
+                    Log.Info(e.InnerException, "Connect failed!");
 
                     await Task.Delay(5000);
                 }

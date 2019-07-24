@@ -1,5 +1,6 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
+using ProtoModel;
 using SharpServer;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,25 @@ namespace TestMasterServer
         {
         }
 
+        protected override void OnConnect(MsgHandler context)
+        {
+            context.Register<Person>(101, Test);
+        }
+
+        public void Test(Person msg)
+        {
+            Log.Info(msg.Name);
+        }
+
         protected override void OnRun()
         {
-            for (int i = 0; i < 3000; i++)
+            //for (int i = 0; i < 3000; i++)
             {
-                Task.Run(Connect);
+                Task.Run(async () =>
+                {
+                    await Connect();
+
+                });
             }
 
             while (true)

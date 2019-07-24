@@ -13,11 +13,11 @@ namespace SharpServer
 
     public class MsgHandler : SimpleChannelInboundHandler<IByteBuffer>
     {
-        IChannelHandlerContext context;
+        public IChannelHandlerContext context;
         ConcurrentDictionary<int, MsgProcessor> messageHandlers = new ConcurrentDictionary<int, MsgProcessor>();
 
-        public event Action<IChannelHandlerContext> channelRegistered;
-        public event Action<IChannelHandlerContext> channelUnregistered;
+        public event Action<MsgHandler> channelRegistered;
+        public event Action<MsgHandler> channelUnregistered;
 
         public MsgHandler(bool autoRelease = true) : base(autoRelease)
         {
@@ -48,7 +48,8 @@ namespace SharpServer
             int len = (int)ms.Position;
             IByteBuffer byteBuf = Unpooled.Buffer(len + 8);
             EncodeHead(byteBuf, msgType, len);
-            await byteBuf.WriteBytesAsync(ms, len);
+            /*await*/ byteBuf.WriteBytes(ms.ToArray());
+            await context.WriteAndFlushAsync(byteBuf);
         }
 
         public async Task Send(int msgType, byte[] body)
@@ -84,12 +85,12 @@ namespace SharpServer
         {
             base.ChannelRegistered(context);
 
-            channelRegistered?.Invoke(context);
+            channelRegistered?.Invoke(this);
         }
 
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
-            channelUnregistered?.Invoke(context);
+            channelUnregistered?.Invoke(this);
 
             base.ChannelUnregistered(context);
         }
@@ -108,7 +109,7 @@ namespace SharpServer
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            Console.WriteLine("Exception: " + exception);
+            Log.Info(exception, "");
             context.CloseAsync();
         }
     }

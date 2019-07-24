@@ -19,12 +19,12 @@ namespace SharpServer
             var logfile = new NLog.Targets.FileTarget(name)
             {
                 FileName = "${basedir}/logs/${logger}/${shortdate}.log",
-                Layout = "${longdate} ${aspnet-request:servervariable=URL}[${uppercase:${level}}] ${message}"
+                Layout = "${longdate} ${aspnet-request:servervariable=URL}[${uppercase:${level}}] ${message} ${exception:format=toString,Data:maxInnerExceptionLevel=10}"
             };
 
             var logconsole = new NLog.Targets.ConsoleTarget("logconsole")
             {
-                Layout = "${longdate} ${aspnet-request:servervariable=URL}[${uppercase:${level}}] ${message}"
+                Layout = "${longdate} ${aspnet-request:servervariable=URL}[${uppercase:${level}}] ${message} ${exception:format=toString,Data:maxInnerExceptionLevel=10}"
             };
 
             // Rules for mapping loggers to targets            

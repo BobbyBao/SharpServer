@@ -25,10 +25,15 @@ namespace SharpServer
             pipeline.AddLast(new LoggingHandler());
             pipeline.AddLast("framing-enc", new MsgEncoder());
             pipeline.AddLast("framing-dec", new MsgDecoder());
-            pipeline.AddLast("echo", CreateHandler());
+
+            var handler = CreateHandler();
+            handler.channelRegistered += OnConnect;
+            handler.channelUnregistered += OnDisconnect;
+
+            pipeline.AddLast("handler", handler);
         }
 
-        protected virtual IChannelHandler CreateHandler()
+        protected virtual MsgHandler CreateHandler()
         {
             return new MsgHandler();
         }
@@ -36,6 +41,14 @@ namespace SharpServer
         public async Task Connect()
         {
             await NetworkClient.Connect(IP, Port, InitChannel);
+        }
+
+        protected virtual void OnConnect(MsgHandler context)
+        {
+        }
+
+        protected virtual void OnDisconnect(MsgHandler context)
+        {
         }
 
         protected override void OnRun()
@@ -49,9 +62,9 @@ namespace SharpServer
         }
     }
 
-    public class ClientApp<T> : ClientApp where T : IChannelHandler, new()
+    public class ClientApp<T> : ClientApp where T : MsgHandler, new()
     {
-        protected override IChannelHandler CreateHandler()
+        protected override MsgHandler CreateHandler()
         {
             return new T();
         }
