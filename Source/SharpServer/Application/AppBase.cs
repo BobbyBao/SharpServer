@@ -8,6 +8,11 @@ namespace SharpServer
     public class AppBase : ServiceManager
     {
         protected ConcurrentDictionary<string, Connection> connections = new ConcurrentDictionary<string, Connection>();
+        protected PlayerManager playerMgr;
+        public AppBase()
+        {
+            playerMgr = AddService<PlayerManager>();
+        }
 
         protected virtual Connection CreateConnection()
         {

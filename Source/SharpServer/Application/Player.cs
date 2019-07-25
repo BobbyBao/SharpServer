@@ -14,12 +14,12 @@ namespace SharpServer
         {
         }
 
-        public void Connect(Connection conn)
+        public virtual void Connect(Connection conn)
         {
             this.conn = conn;
         }
 
-        public void Disconnect()
+        public virtual void Disconnect()
         {
             this.conn = null;
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpServer
 {
-    public class PlayerManager : AbstractService
+    public class PlayerManager : AbstractService, ITickable
     {
         ConcurrentDictionary<long, Player> players = new ConcurrentDictionary<long, Player>();
 
@@ -13,10 +13,9 @@ namespace SharpServer
         {
         }
 
-
-        public Player CreatePlayer(long id, Connection conn = null)
+        public T CreatePlayer<T>(long id, Connection conn = null) where T : Player, new()
         {
-            var player = new Player
+            var player = new T
             {
                 id = id,
                 conn = conn
@@ -26,14 +25,14 @@ namespace SharpServer
             return player;
         }
 
-        public Player GetPlayer(long id, Connection conn = null)
+        public T GetPlayer<T>(long id, Connection conn = null) where T : Player, new()
         {
             if(players.TryGetValue(id, out var player))
             {
-                return player;
+                return player as T;
             }
 
-            return CreatePlayer(id, conn);
+            return CreatePlayer<T>(id, conn);
         }
 
         public void DestroyPlayer(long id)
@@ -45,8 +44,18 @@ namespace SharpServer
 
         }
 
-
         public override void Shutdown()
+        {
+            var it = players.GetEnumerator();
+            while(it.MoveNext())
+            {
+                it.Current.Value.Dispose();
+            }
+
+            players.Clear();
+        }
+
+        public void Tick(int msec)
         {
         }
     }
