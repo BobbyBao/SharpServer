@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public class ClientApp : ServiceManager
+    public class ClientApp : AppBase
     {
         public string IP { get; set; } = "127.0.0.1";
         public int Port { get; set; } = 2239;
@@ -33,30 +33,11 @@ namespace SharpServer
             pipeline.AddLast("handler", handler);
         }
 
-        protected virtual Connection CreateConnection()
-        {
-            return new Connection();
-        }
-
         public async Task Connect()
         {
             await NetworkClient.Connect(IP, Port, InitChannel);
         }
-
-        protected virtual void OnConnect(Connection conn)
-        {
-        }
-
-        protected virtual void OnDisconnect(Connection conn)
-        {
-        }
-
-        /*
-        protected override void OnRun()
-        {
-            Connect().Wait();
-        }*/
-
+        
         protected override void OnShutdown()
         {
             NetworkClient.Shutdown();

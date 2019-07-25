@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public class ServerApp : ServiceManager
+    public class ServerApp : AppBase
     {
         public int Port { get; set; } = 2239;
         public NetworkServer Server { get; set; }
@@ -54,19 +54,6 @@ namespace SharpServer
         public async virtual Task Listen()
         {
             await Server.Start(Port, InitChannel);
-        }
-
-        protected virtual Connection CreateConnection()
-        {
-            return new Connection();
-        }
-
-        protected virtual void OnConnect(Connection conn)
-        {
-        }
-
-        protected virtual void OnDisconnect(Connection conn)
-        {
         }
 
         protected override void OnShutdown()
