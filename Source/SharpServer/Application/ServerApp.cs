@@ -4,6 +4,7 @@ using DotNetty.Transport.Channels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SharpServer
@@ -39,23 +40,35 @@ namespace SharpServer
             pipeline.AddLast("framing-enc", new MsgEncoder());
             pipeline.AddLast("framing-dec", new MsgDecoder());
 
-            Connection handler = CreateHandler();
+            Connection handler = CreateConnection();
             handler.connected += OnConnect;
             handler.disconnected += OnDisconnect;
             pipeline.AddLast("handler", handler);
         }
 
+        protected override void OnStart()
+        {
+            Task.Run(Listen);
+        }
+        /*
         protected override void OnRun()
         {
-            Listen().Wait();
-        }
+            //Listen().Wait();
+            Task.Run(Listen);
+
+            while (true)
+            {
+                Thread.Sleep(1000);
+
+            }
+        }*/
 
         public async virtual Task Listen()
         {
             await Server.Start(Port, InitChannel);
         }
 
-        protected virtual Connection CreateHandler()
+        protected virtual Connection CreateConnection()
         {
             return new Connection();
         }
@@ -77,17 +90,4 @@ namespace SharpServer
 
     }
 
-    public class ServerApp<T> : ServerApp where T : Connection, new()
-    {
-        public ServerApp(string[] args) : base(args)
-        {
-        }
-
-        protected override Connection CreateHandler()
-        {
-            return new T();
-        }
-
-
-    }
 }

@@ -45,7 +45,7 @@ namespace SharpServer
 
                     IChannel clientChannel = await bootstrap.ConnectAsync(IPAddress.Parse(ip), port);                    
                     clientChannels.Add(clientChannel);
-                    Log.Info("Connect succ!");
+                    //Log.Info("Connect succ!");
                     return;
                     
                 }

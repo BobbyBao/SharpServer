@@ -27,21 +27,22 @@
 
     }
 
-    public class PingPongServer : ServerApp<PingPongServerHandler>
+    public class PingPongServer : ServerApp
     {
         public PingPongServer(string[] args) : base(args)
         {
         }
 
-        protected override void OnRun()
+        protected override Connection CreateConnection()
         {
-            Task.Run(Listen);
+            return new PingPongServerHandler();
+        }
 
-            int lastRecv = 0;
-            int lastSend = 0;
-            while (true)
+        int lastRecv = 0;
+        int lastSend = 0;
+        protected override void OnTick(int msec)
+        {
             {
-                Thread.Sleep(1000);
                 Log.Info("Send {0}, Receive {1} per sec", (int)(Stats.send - lastSend), (int)(Stats.recv - lastRecv));
                 lastRecv = Stats.recv;
                 lastSend = Stats.send;

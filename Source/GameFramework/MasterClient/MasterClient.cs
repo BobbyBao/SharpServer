@@ -40,18 +40,14 @@ namespace TestMasterServer
             }
         }
 
-        protected override void OnRun()
+        protected override void OnStart()
         {
             //for (int i = 0; i < 3000; i++)
             {
                 Task.Run(Connect);
             }
 
-            while (true)
-            {
-                Thread.Sleep(1000);
-            }
-
         }
+
     }
 }

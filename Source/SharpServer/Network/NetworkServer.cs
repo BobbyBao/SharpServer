@@ -69,7 +69,6 @@ namespace SharpServer
         public async Task<int> Broadcast(IByteBuffer byteBuffer)
         {
             await group.WriteAndFlushAsync(byteBuffer);
-            Interlocked.Add(ref Stats.send, group.Count);
             return group.Count;
         }
 

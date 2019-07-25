@@ -10,11 +10,10 @@ namespace MasterServer
 {
     public class MasterServer : ServerApp
     {
+        Connection handler;
         public MasterServer(string[] args) : base(args)
         {
         }
-
-        Connection handler;
 
         protected override void OnConnect(Connection handler)
         {
@@ -35,15 +34,5 @@ namespace MasterServer
             handler.Send((int)MessageType.UserLoginRes, res);
         }
 
-        protected override void OnRun()
-        {
-            Task.Run(Listen);
-
-            while (true)
-            {
-                Thread.Sleep(1000);
-
-            }
-        }
     }
 }

@@ -42,31 +42,33 @@ namespace Test.Client
 
     }
 
-    public class PingPongClient : ClientApp<PingPongClientHandler>
+    public class PingPongClient : ClientApp
     {
+        int lastRecv = 0;
+        int lastSend = 0;
+
         public PingPongClient()
         {
         }
 
-        protected override void OnRun()
+        protected override Connection CreateConnection()
+        {
+            return new PingPongClientHandler();
+        }
+
+        protected override void OnStart()
         {
             for (int i = 0; i < 3000; i++)
             {
                 Task.Run(Connect);
             }
+        }
 
-            int lastRecv = 0;
-            int lastSend = 0;
-
-            while (true)
-            {
-                Thread.Sleep(1000);
-
-                Log.Info("Send {0}, Receive {1} per sec", (int)(Stats.send - lastSend), (int)(Stats.recv - lastRecv));
-                lastRecv = Stats.recv;
-                lastSend = Stats.send;
-            }
-            
+        protected override void OnTick(int msec)
+        {
+            Log.Info("Send {0}, Receive {1} per sec", (int)(Stats.send - lastSend), (int)(Stats.recv - lastRecv));
+            lastRecv = Stats.recv;
+            lastSend = Stats.send;
         }
     }
 }
