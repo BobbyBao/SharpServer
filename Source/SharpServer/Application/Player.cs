@@ -24,7 +24,11 @@ namespace SharpServer
             this.conn = null;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
+        {
+        }
+
+        public virtual void Tick(int msec)
         {
 
         }

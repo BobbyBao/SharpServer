@@ -17,8 +17,15 @@ namespace SharpServer
         static Bootstrap bootstrap = new Bootstrap();
         static IEventLoopGroup group;
         static List<IChannel> clientChannels = new List<IChannel>();
+        static bool inited = false;
         public static void Init()
         {
+            if (inited)
+            {
+                return;
+            }
+
+            inited = true;
             group = new MultithreadEventLoopGroup();
             bootstrap.Group(group);
         }
@@ -29,6 +36,8 @@ namespace SharpServer
                 await clientChannel.CloseAsync();
 
             await group.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
+
+            inited = false;
         }
 
         public static async Task Connect(string ip, int port, Action<ISocketChannel> initializer)

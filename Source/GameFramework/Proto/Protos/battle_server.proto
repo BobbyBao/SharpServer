@@ -1,0 +1,20 @@
+syntax = "proto2";
+package battle_server;
+
+enum message_type
+{   
+    user_login_req = 1001;   
+    user_login_res = 1002;   
+}
+
+message user_login_req_t
+{
+    required    string     user_id = 1;               // 用户id(int64)
+    required    string  user_name = 2;                // 用户名
+}
+
+message user_login_res_t
+{
+    required    int32    res = 1;                    //
+    required    string    user_id = 2;               // 用户id(int64)
+}

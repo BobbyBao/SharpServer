@@ -57,6 +57,11 @@ namespace SharpServer
 
         public void Tick(int msec)
         {
+            var it = players.GetEnumerator();
+            while (it.MoveNext())
+            {
+                it.Current.Value.Tick(msec);
+            }
         }
     }
 }
