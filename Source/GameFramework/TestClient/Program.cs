@@ -4,7 +4,7 @@ namespace TestMasterServer
 {
     class Program
     {
-        static void Main(string[] args) => new MasterClient().Start();
+        static void Main(string[] args) => new TestClient().Start();
         
     }
 }

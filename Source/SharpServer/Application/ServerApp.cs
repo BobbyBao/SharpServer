@@ -50,18 +50,6 @@ namespace SharpServer
         {
             Task.Run(Listen);
         }
-        /*
-        protected override void OnRun()
-        {
-            //Listen().Wait();
-            Task.Run(Listen);
-
-            while (true)
-            {
-                Thread.Sleep(1000);
-
-            }
-        }*/
 
         public async virtual Task Listen()
         {

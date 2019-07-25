@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public delegate void MsgProcessor(ArraySegment<byte> buf);
+    public delegate void MsgHandler(ArraySegment<byte> buf);
 
     public class Connection : SimpleChannelInboundHandler<IByteBuffer>
     {
         public string channelID;
         public IChannelHandlerContext context;
-        ConcurrentDictionary<int, MsgProcessor> msgHandlers = new ConcurrentDictionary<int, MsgProcessor>();
+        ConcurrentDictionary<int, MsgHandler> msgHandlers = new ConcurrentDictionary<int, MsgHandler>();
 
         public event Action<Connection> connected;
         public event Action<Connection> disconnected;

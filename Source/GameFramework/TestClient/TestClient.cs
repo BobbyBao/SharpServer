@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TestMasterServer
+namespace TestClient
 {
-    public class MasterClient : ClientApp
+    public class TestClient : ClientApp
     {
-        public MasterClient()
+        public TestClient()
         {
         }
 
