@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpServer
 {
-    public class PlayerManager : AbstractService, ITickable
+    public class PlayerManager : AbstractSubsystem, ITickable
     {
         ConcurrentDictionary<long, Player> players = new ConcurrentDictionary<long, Player>();
 

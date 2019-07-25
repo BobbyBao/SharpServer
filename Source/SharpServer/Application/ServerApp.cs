@@ -22,7 +22,7 @@ namespace SharpServer
 
             if(appCfg != null)
             {
-                    Port = appCfg.GetValue("Port", 2239);
+                Port = appCfg.GetValue("Port", 2239);
                 var log = appCfg.GetSection("Log");
             }
 
