@@ -10,8 +10,7 @@ set TARGET_PATH=.\Models
 ::删除之前创建的文件
 del %TARGET_PATH%\*.* /f /s /q
  
-for /f "delims=" %%i in ('dir /b "%SOURCE_PATH%\*.proto"') do 
-(    
+for /f "delims=" %%i in ('dir /b "%SOURCE_PATH%\*.proto"') do (    
     echo 转换：%%i to %%~ni.cs
     %PROTOGEN_PATH% %%i --proto_path=%SOURCE_PATH% --csharp_out=%TARGET_PATH%   
 )

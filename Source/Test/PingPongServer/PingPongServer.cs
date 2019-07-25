@@ -12,7 +12,7 @@
     using ServiceStack.Text;
     using SharpServer;
     
-    public class PingPongServerHandler : MsgHandler
+    public class PingPongServerHandler : Connection
     {
         public PingPongServerHandler()
         {

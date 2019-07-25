@@ -6,36 +6,6 @@ using System.Text;
 
 namespace SharpServer
 {
-
-    public static class ConfigHelper
-    {
-        public static T GetValue<T>(this Dictionary<string, object> section, string key, T defValue = default)
-        {
-            if (section.TryGetValue(key, out object val))
-            {
-                return (T)val;
-            }
-
-            return defValue;
-        }
-
-        public static int GetValue(this Dictionary<string, object> section, string key, int defValue = default)
-        {
-            if (section.TryGetValue(key, out object val))
-            {
-                return (int)(double)val;
-            }
-
-            return defValue;
-        }
-
-        public static void SetValue<T>(this Dictionary<string, object> section, string key, T val)
-        {
-            section[key] = val;
-        }
-
-    }
-
     public class Config : Dictionary<string, object>
     {
         public static string DataPath { get; set; }
@@ -92,4 +62,44 @@ namespace SharpServer
         }
 
     }
+
+    public static class ConfigHelper
+    {
+        public static T GetValue<T>(this Dictionary<string, object> section, string key, T defValue = default)
+        {
+            if (section.TryGetValue(key, out object val))
+            {
+                return (T)val;
+            }
+
+            return defValue;
+        }
+
+        public static sbyte GetValue(this Dictionary<string, object> section, string key, sbyte defValue = default)
+            => (sbyte)section.GetValue(key, (double)defValue);
+        public static byte GetValue(this Dictionary<string, object> section, string key, byte defValue = default)
+            => (byte)section.GetValue(key, (double)defValue);
+
+        public static short GetValue(this Dictionary<string, object> section, string key, short defValue = default)
+            => (short)section.GetValue(key, (double)defValue);
+        public static ushort GetValue(this Dictionary<string, object> section, string key, ushort defValue = default)
+            => (ushort)section.GetValue(key, (double)defValue);
+
+        public static int GetValue(this Dictionary<string, object> section, string key, int defValue = default)
+            => (int)section.GetValue(key, (double)defValue);
+        public static uint GetValue(this Dictionary<string, object> section, string key, uint defValue = default)
+            => (uint)section.GetValue(key, (double)defValue);
+
+        public static long GetValue(this Dictionary<string, object> section, string key, long defValue = default)
+            => (long)section.GetValue(key, (double)defValue);
+        public static ulong GetValue(this Dictionary<string, object> section, string key, ulong defValue = default)
+            => (ulong)section.GetValue(key, (double)defValue);
+
+        public static void SetValue<T>(this Dictionary<string, object> section, string key, T val)
+        {
+            section[key] = val;
+        }
+
+    }
+
 }

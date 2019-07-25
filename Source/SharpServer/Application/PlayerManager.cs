@@ -14,7 +14,7 @@ namespace SharpServer
         }
 
 
-        public Player CreatePlayer(long id, MsgHandler conn = null)
+        public Player CreatePlayer(long id, Connection conn = null)
         {
             var player = new Player
             {
@@ -26,7 +26,7 @@ namespace SharpServer
             return player;
         }
 
-        public Player GetPlayer(long id, MsgHandler conn = null)
+        public Player GetPlayer(long id, Connection conn = null)
         {
             if(players.TryGetValue(id, out var player))
             {

@@ -11,16 +11,16 @@ namespace SharpServer
 {
     public delegate void MsgProcessor(ArraySegment<byte> buf);
 
-    public class MsgHandler : SimpleChannelInboundHandler<IByteBuffer>
+    public class Connection : SimpleChannelInboundHandler<IByteBuffer>
     {
         public string channelID;
         public IChannelHandlerContext context;
         ConcurrentDictionary<int, MsgProcessor> msgHandlers = new ConcurrentDictionary<int, MsgProcessor>();
 
-        public event Action<MsgHandler> connected;
-        public event Action<MsgHandler> disconnected;
+        public event Action<Connection> connected;
+        public event Action<Connection> disconnected;
 
-        public MsgHandler(bool autoRelease = true) : base(autoRelease)
+        public Connection(bool autoRelease = true) : base(autoRelease)
         {
         }
 

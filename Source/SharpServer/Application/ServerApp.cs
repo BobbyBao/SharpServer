@@ -39,7 +39,7 @@ namespace SharpServer
             pipeline.AddLast("framing-enc", new MsgEncoder());
             pipeline.AddLast("framing-dec", new MsgDecoder());
 
-            MsgHandler handler = CreateHandler();
+            Connection handler = CreateHandler();
             handler.connected += OnConnect;
             handler.disconnected += OnDisconnect;
             pipeline.AddLast("handler", handler);
@@ -55,16 +55,16 @@ namespace SharpServer
             await Server.Start(Port, InitChannel);
         }
 
-        protected virtual MsgHandler CreateHandler()
+        protected virtual Connection CreateHandler()
         {
-            return new MsgHandler();
+            return new Connection();
         }
 
-        protected virtual void OnConnect(MsgHandler context)
+        protected virtual void OnConnect(Connection conn)
         {
         }
 
-        protected virtual void OnDisconnect(MsgHandler context)
+        protected virtual void OnDisconnect(Connection conn)
         {
         }
 
@@ -77,13 +77,13 @@ namespace SharpServer
 
     }
 
-    public class ServerApp<T> : ServerApp where T : MsgHandler, new()
+    public class ServerApp<T> : ServerApp where T : Connection, new()
     {
         public ServerApp(string[] args) : base(args)
         {
         }
 
-        protected override MsgHandler CreateHandler()
+        protected override Connection CreateHandler()
         {
             return new T();
         }

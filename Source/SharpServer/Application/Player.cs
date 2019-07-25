@@ -8,13 +8,13 @@ namespace SharpServer
     public class Player : IDisposable
     {
         public long id;
-        public MsgHandler conn;
+        public Connection conn;
 
         public Player()
         {
         }
 
-        public void Connect(MsgHandler conn)
+        public void Connect(Connection conn)
         {
             this.conn = conn;
         }

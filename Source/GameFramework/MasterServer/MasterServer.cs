@@ -14,9 +14,9 @@ namespace MasterServer
         {
         }
 
-        MsgHandler handler;
+        Connection handler;
 
-        protected override void OnConnect(MsgHandler handler)
+        protected override void OnConnect(Connection handler)
         {
             this.handler = handler;
 

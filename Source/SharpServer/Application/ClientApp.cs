@@ -33,9 +33,9 @@ namespace SharpServer
             pipeline.AddLast("handler", handler);
         }
 
-        protected virtual MsgHandler CreateHandler()
+        protected virtual Connection CreateHandler()
         {
-            return new MsgHandler();
+            return new Connection();
         }
 
         public async Task Connect()
@@ -43,11 +43,11 @@ namespace SharpServer
             await NetworkClient.Connect(IP, Port, InitChannel);
         }
 
-        protected virtual void OnConnect(MsgHandler context)
+        protected virtual void OnConnect(Connection context)
         {
         }
 
-        protected virtual void OnDisconnect(MsgHandler context)
+        protected virtual void OnDisconnect(Connection context)
         {
         }
 
@@ -62,9 +62,9 @@ namespace SharpServer
         }
     }
 
-    public class ClientApp<T> : ClientApp where T : MsgHandler, new()
+    public class ClientApp<T> : ClientApp where T : Connection, new()
     {
-        protected override MsgHandler CreateHandler()
+        protected override Connection CreateHandler()
         {
             return new T();
         }

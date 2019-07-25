@@ -16,7 +16,7 @@ namespace TestMasterServer
         {
         }
 
-        protected override void OnConnect(MsgHandler handler)
+        protected override void OnConnect(Connection handler)
         {
             handler.Register<UserLoginResT>((int)MessageType.UserLoginRes, HandleUserLoginRes);
 
