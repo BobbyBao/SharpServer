@@ -46,7 +46,6 @@ namespace Test.Client
     {
         int lastRecv = 0;
         int lastSend = 0;
-
         public PingPongClient()
         {
         }

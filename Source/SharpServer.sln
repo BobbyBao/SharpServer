@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPongServer", "Test\PingPongServer\PingPongServer.csproj", "{084272EF-FCCD-4BEA-B072-2AB34BC95953}"
 EndProject
@@ -21,7 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameFramework", "GameFramew
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proto", "GameFramework\Proto\Proto.csproj", "{4A97FE00-9A22-46D9-9B96-365CF1C4CB75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleServer", "GameFramework\BattleServer\BattleServer.csproj", "{6F54613B-E0FA-4713-B657-A8CF75BD8926}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleServer", "GameFramework\BattleServer\BattleServer.csproj", "{6F54613B-E0FA-4713-B657-A8CF75BD8926}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GateServer", "GameFramework\GateServer\GateServer.csproj", "{BA0025E9-606D-4F0D-9713-A7C6FA8B1E3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{6F54613B-E0FA-4713-B657-A8CF75BD8926}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F54613B-E0FA-4713-B657-A8CF75BD8926}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F54613B-E0FA-4713-B657-A8CF75BD8926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA0025E9-606D-4F0D-9713-A7C6FA8B1E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA0025E9-606D-4F0D-9713-A7C6FA8B1E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA0025E9-606D-4F0D-9713-A7C6FA8B1E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA0025E9-606D-4F0D-9713-A7C6FA8B1E3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{70757045-5CD4-4BA0-9EA9-E6922ED97922} = {C4662901-932D-44CD-82E1-F7409003A16A}
 		{4A97FE00-9A22-46D9-9B96-365CF1C4CB75} = {C4662901-932D-44CD-82E1-F7409003A16A}
 		{6F54613B-E0FA-4713-B657-A8CF75BD8926} = {C4662901-932D-44CD-82E1-F7409003A16A}
+		{BA0025E9-606D-4F0D-9713-A7C6FA8B1E3C} = {C4662901-932D-44CD-82E1-F7409003A16A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19AB20C4-592D-4DCB-9B5E-C11FAF30DF93}
