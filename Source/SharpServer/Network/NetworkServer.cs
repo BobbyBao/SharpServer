@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define LIBUV
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,7 @@ using DotNetty.Handlers.Logging;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Groups;
+using DotNetty.Transport.Channels.Sockets;
 using DotNetty.Transport.Libuv;
 
 namespace SharpServer
@@ -18,15 +20,20 @@ namespace SharpServer
     {
         static IEventLoopGroup bossGroup;
         static IEventLoopGroup workerGroup;
-
+        
         public IChannelGroup group;
         public ConcurrentDictionary<string, IChannelHandlerContext> channelHandlerContexts = new ConcurrentDictionary<string, IChannelHandlerContext>();
 
         public static void Init()
         {
+#if LIBUV
             var dispatcher = new DispatcherEventLoopGroup();
             bossGroup = dispatcher;
             workerGroup = new WorkerEventLoopGroup(dispatcher);
+#else
+            bossGroup = new MultithreadEventLoopGroup(1);
+            workerGroup = new MultithreadEventLoopGroup();
+#endif
         }
 
         public static async void Shutdown()
@@ -42,8 +49,11 @@ namespace SharpServer
             {
                 var serverBootstrap = new ServerBootstrap();
                 serverBootstrap.Group(bossGroup, workerGroup);
+#if LIBUV
                 serverBootstrap.Channel<TcpServerChannel>();
-
+#else
+                serverBootstrap.Channel<TcpServerSocketChannel>();
+#endif
                 serverBootstrap
                     .Option(ChannelOption.SoBacklog, 1024)
                     .Handler(new LoggingHandler("SRV-LSTN"))                    

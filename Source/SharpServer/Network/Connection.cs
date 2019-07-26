@@ -38,22 +38,23 @@ namespace SharpServer
 
         public T Deserialize<T>(byte[] byteBuf, int offset, int size)
         {
-            MemoryStream ms = new MemoryStream(byteBuf, offset, size);
-            return ProtoBuf.Serializer.Deserialize<T>(ms);
+            using (MemoryStream ms = new MemoryStream(byteBuf, offset, size))
+                return ProtoBuf.Serializer.Deserialize<T>(ms);
         }
 
         public void Send<T>(int msgType, T obj)
         {
             Task.Run(async () =>
             {
-                MemoryStream ms = new MemoryStream();
-                ProtoBuf.Serializer.Serialize(ms, obj);
-                int len = (int)ms.Position;
-                IByteBuffer byteBuf = Unpooled.Buffer(len + 8);
-                EncodeHead(byteBuf, msgType, len);
-                byteBuf.WriteBytes(ms.ToArray());
-                await context.WriteAndFlushAsync(byteBuf);
-                //Log.Info("Send : {0}", len);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    ProtoBuf.Serializer.Serialize(ms, obj);
+                    int len = (int)ms.Position;
+                    IByteBuffer byteBuf = Unpooled.Buffer(len + 8);
+                    EncodeHead(byteBuf, msgType, len);
+                    byteBuf.WriteBytes(ms.ToArray());
+                    await context.WriteAndFlushAsync(byteBuf);
+                }
             });
         }
 
@@ -63,7 +64,6 @@ namespace SharpServer
             Encode(message, msgType, body);
 
             await context.WriteAndFlushAsync(message);
-            //Log.Info("Send bytes: {0}", body.Length);
         }
 
         public void Register<T>(int msgType, Action<T> handler)
@@ -80,7 +80,6 @@ namespace SharpServer
             base.ChannelActive(context);
             connected?.Invoke(this);
             this.context = context;
-            //Log.Info("Channel connected: {0}", channelID);
         }
 
         public override void ChannelInactive(IChannelHandlerContext context)
