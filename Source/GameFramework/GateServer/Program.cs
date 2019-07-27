@@ -59,7 +59,7 @@ namespace GateServer
         private static async Task DoClientWork(IClusterClient client)
         {
             // example of calling grains from the initialized client
-            var friend = client.GetGrain<IPlayer>(0);
+            var friend = client.GetGrain<IPlayerGrain>(0);
             var response = await friend.Login("Good morning, HelloGrain!");
             Console.WriteLine("\n\n{0}\n\n", response);
         }

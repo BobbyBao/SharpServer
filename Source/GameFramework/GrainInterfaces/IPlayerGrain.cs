@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace GrainInterfaces
 {
-    public interface IPlayer : Orleans.IGrainWithIntegerKey
+    public interface IPlayerGrain : Orleans.IGrainWithIntegerKey
     {
         Task<bool> Login(string name);
     }

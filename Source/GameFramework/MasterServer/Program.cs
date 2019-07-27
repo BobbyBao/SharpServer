@@ -30,7 +30,7 @@ namespace MasterServer
                             options.ServiceId = "HelloWorldApp";
                         })
                         .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
-                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(Player).Assembly).WithReferences());
+                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(PlayerGrain).Assembly).WithReferences());
                 })
                 .ConfigureServices(services =>
                 {

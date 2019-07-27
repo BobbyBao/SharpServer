@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace GrainCollection
 {
-    public class Player : Orleans.Grain, IPlayer
+    public class PlayerGrain : Orleans.Grain, IPlayerGrain
     {
         public Task<bool> Login(string name)
         {
