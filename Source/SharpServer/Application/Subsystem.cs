@@ -10,7 +10,7 @@ namespace SharpServer
         void Shutdown();
     }
 
-    public abstract class AbstractSubsystem : ISubsystem
+    public abstract class Subsystem : ISubsystem
     {
         public virtual void Init()
         {

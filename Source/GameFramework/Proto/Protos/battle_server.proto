@@ -3,17 +3,17 @@ package battle_server;
 
 enum message_type
 {   
-    user_login_req = 1001;   
-    user_login_res = 1002;   
+    user_login_req = 30001;   
+    user_login_res = 30002;   
 }
 
-message user_login_req_t
+message user_login_req
 {
     required    string     user_id = 1;               // 用户id(int64)
     required    string  user_name = 2;                // 用户名
 }
 
-message user_login_res_t
+message user_login_res
 {
     required    int32    res = 1;                    //
     required    string    user_id = 2;               // 用户id(int64)

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpServer
 {
-    public class Log : AbstractSubsystem
+    public class Log : Subsystem
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public Log()

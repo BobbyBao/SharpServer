@@ -19,14 +19,14 @@ namespace MasterServer
         {
             this.handler = handler;
 
-            handler.Register<UserLoginReqT>((int)MessageType.UserLoginReq, HandleUserLoginReq);
+            handler.Register<UserLoginReq>((int)MessageType.UserLoginReq, HandleUserLoginReq);
         }
 
-        void HandleUserLoginReq(UserLoginReqT msg)
+        void HandleUserLoginReq(UserLoginReq msg)
         {
             Log.Info("User {0}, login", msg.UserName);
 
-            var res = new UserLoginResT
+            var res = new UserLoginRes
             {
                 Res = 0
             };
