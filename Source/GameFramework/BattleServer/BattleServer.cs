@@ -7,15 +7,12 @@ namespace BattleServer
 {
     public class BattleServer : ServerApp
     {
-        Connection handler;
         public BattleServer(string[] args) : base(args)
         {
         }
 
         protected override void OnConnect(Connection handler)
         {
-            this.handler = handler;
-
             //handler.Register<UserLoginReqT>((int)MessageType.UserLoginReq, HandleUserLoginReq);
         }
 

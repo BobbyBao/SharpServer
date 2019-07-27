@@ -29,6 +29,8 @@
 
     public class PingPongServer : ServerApp
     {
+        int lastRecv = 0;
+        int lastSend = 0;
         public PingPongServer(string[] args) : base(args)
         {
         }
@@ -38,8 +40,6 @@
             return new PingPongServerHandler();
         }
 
-        int lastRecv = 0;
-        int lastSend = 0;
         protected override void OnTick(int msec)
         {
             {

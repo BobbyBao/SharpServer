@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestMasterServer
+namespace TestClient
 {
     class Program
     {
