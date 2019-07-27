@@ -15,8 +15,6 @@ namespace MasterServer
 {
     class Program
     {
-        static ISiloHost siloHost;
-
         static Task Main(string[] args)
         {
             //new MasterServer(args).Start();
