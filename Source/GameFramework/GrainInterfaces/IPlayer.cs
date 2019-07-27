@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Interfaces
+namespace GrainInterfaces
 {
     public interface IPlayer : Orleans.IGrainWithIntegerKey
     {
-        Task Login();
+        Task<bool> Login(string name);
     }
 }
