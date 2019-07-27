@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Core" Version="2.3.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\SharpServer\SharpServer.csproj" />
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
