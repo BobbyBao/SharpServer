@@ -15,7 +15,7 @@ namespace SharpServer
 
     public class AppBase
     {
-        List<ISubsystem> services = new List<ISubsystem>();
+        List<object> services = new List<object>();
         List<ITickable> tickables = new List<ITickable>();
         bool inited = false;
         protected ConcurrentDictionary<string, Connection> connections = new ConcurrentDictionary<string, Connection>();
@@ -34,14 +34,14 @@ namespace SharpServer
 
         }
 
-        public T AddService<T>() where T : ISubsystem, new()
+        public T AddService<T>() where T : new()
         {
             T service = new T();
             services.Add(service);
 
             if(inited)
             {
-                service.Init();
+                (service as ISubsystem)?.Init();
             }
 
             if(service is ITickable)
@@ -56,7 +56,7 @@ namespace SharpServer
         {
             foreach(var service in services)
             {
-                service.Init();
+                (service as ISubsystem)?.Init();
             }
 
             inited = true;
@@ -73,7 +73,7 @@ namespace SharpServer
 
             foreach (var service in services)
             {
-                service.Shutdown();
+                (service as ISubsystem)?.Shutdown();
             }
 
             services.Clear();

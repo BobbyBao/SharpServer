@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpServer
 {
-    public class Log : Subsystem
+    public class Log : IDisposable
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public Log()
@@ -36,7 +36,7 @@ namespace SharpServer
            
         }
 
-        public override void Shutdown()
+        public void Dispose()
         {
             NLog.LogManager.Shutdown();
         }
