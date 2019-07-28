@@ -5,7 +5,7 @@ namespace Test.Server
     {
         static void Main(string[] args)
         {
-            new PingPongServer(args).Start();
+            new PingPongServer().Start();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace BattleServer
 {
     public class BattleServer : ServerApp
     {
-        public BattleServer(string[] args) : base(args)
+        public BattleServer()
         {
         }
 

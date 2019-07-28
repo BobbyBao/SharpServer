@@ -13,7 +13,7 @@ namespace SharpServer
     {
         public int Port { get; set; } = 2239;
         public NetworkServer Server { get; set; }
-        public ServerApp(string[] args)
+        public ServerApp()
         {
             Server = new NetworkServer();
 

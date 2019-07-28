@@ -19,7 +19,6 @@ namespace SharpServer
         List<ITickable> tickables = new List<ITickable>();
         bool inited = false;
         protected ConcurrentDictionary<string, Connection> connections = new ConcurrentDictionary<string, Connection>();
-        protected PlayerManager playerMgr;
 
         public int Interval
         {
@@ -32,7 +31,6 @@ namespace SharpServer
 
             AddService<Log>();
 
-            playerMgr = AddService<PlayerManager>();
 
         }
 

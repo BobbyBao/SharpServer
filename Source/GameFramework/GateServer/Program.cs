@@ -22,7 +22,11 @@ namespace GateServer
             {
                 using (var client = await ConnectClient())
                 {
-                    await DoClientWork(client);
+                    //await DoClientWork(client);
+
+                    var gateServer = new GateServer(client);
+                    gateServer.Start();
+
                     Console.ReadKey();
                 }
 

@@ -18,9 +18,9 @@ namespace TestClient
 
         protected override void OnConnect(Connection handler)
         {
-            handler.Register<UserLoginResT>((int)MessageType.UserLoginRes, HandleUserLoginRes);
+            handler.Register<UserLoginRes>((int)MessageType.UserLoginRes, HandleUserLoginRes);
 
-            var req = new UserLoginReqT
+            var req = new UserLoginReq
             {
                 UserName = "Test"
             };
@@ -28,7 +28,7 @@ namespace TestClient
             handler.Send((int)MessageType.UserLoginReq, req);
         }
 
-        void HandleUserLoginRes(UserLoginResT msg)
+        void HandleUserLoginRes(UserLoginRes msg)
         {
             if(msg.Res == 0)
             {

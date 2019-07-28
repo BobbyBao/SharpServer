@@ -11,7 +11,7 @@ namespace MasterServer
     public class MasterServer : ServerApp
     {
         Connection handler;
-        public MasterServer(string[] args) : base(args)
+        public MasterServer()
         {
         }
 

@@ -13,10 +13,19 @@ namespace SharpServer
             Unsafe.As<byte, T>(ref dst[offset]) = value;
         }
 
-        public static void Read<T>(this byte[] dst, int offset, out T value) where T : struct
+        public static void Write(this byte[] dst, int offset, byte[] value)
         {
-            value = Unsafe.As<byte, T>(ref dst[offset]);
+            Unsafe.CopyBlock(ref dst[offset], ref value[0], (uint)value.Length);
         }
 
+        public static T Read<T>(this byte[] src, int offset) where T : struct
+        {
+            return Unsafe.As<byte, T>(ref src[offset]);
+        }
+
+        public static void Read(this byte[] src, int offset, byte[] value)
+        {
+            Unsafe.CopyBlock(ref value[0], ref src[offset], (uint)value.Length);
+        }
     }
 }
