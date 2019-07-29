@@ -10,13 +10,8 @@ using System.Runtime.CompilerServices;
 
 namespace GrainCollection
 {
-    public class PlayerGrain : Orleans.Grain, IPlayerGrain
+    public class GateGrain : Orleans.Grain, IGateGrain
     {
-        public Task<bool> Login(string name)
-        {
-            return Task.FromResult(true);
-        }
-
         public Task<byte[]> SendMessage(int msgType, byte[] msg)
         {
             switch (msgType)

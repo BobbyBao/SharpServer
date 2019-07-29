@@ -32,14 +32,7 @@ namespace GateServer
 
             if (svrID == 1)
             {
-                var res = new UserLoginRes
-                {
-                    Res = 0,
-                    UserId = "Test user id."
-                };
-
-                var player = clusterClient.GetGrain<IPlayerGrain>(0);
-
+                var player = clusterClient.GetGrain<IGateGrain>(0);
                 Task.Run(async ()=>
                 {
                     var response = await player.SendMessage(msgType, msgData.ToArray());
