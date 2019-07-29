@@ -7,11 +7,25 @@ using System.Threading.Tasks;
 using System.IO;
 using ProtoBuf;
 using System.Runtime.CompilerServices;
+using SharpServer;
 
 namespace GrainCollection
 {
     public class GateGrain : Orleans.Grain, IGateGrain
     {
+        public override Task OnActivateAsync()
+        {
+            //IPlayerGrain player = GrainFactory.GetGrain<IPlayerGrain>(playerId);
+            Log.Info("Grain active : " + this.IdentityString);
+            return base.OnActivateAsync();
+        }
+
+        public override Task OnDeactivateAsync()
+        {
+            Log.Info("Grain deactive : " + this.IdentityString);
+            return base.OnDeactivateAsync();
+        }
+
         public Task<byte[]> SendMessage(int msgType, byte[] msg)
         {
             switch (msgType)

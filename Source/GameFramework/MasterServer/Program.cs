@@ -17,8 +17,6 @@ namespace MasterServer
     {
         static Task Main(string[] args)
         {
-            //new MasterServer(args).Start();
-
             return new HostBuilder()
                 .UseOrleans(builder =>
                 {
