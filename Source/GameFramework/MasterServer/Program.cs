@@ -32,7 +32,8 @@ namespace MasterServer
                 })
                 .ConfigureServices(services =>
                 {
-                    services.Configure<ConsoleLifetimeOptions>(options =>
+                    services.AddSingleton<MasterServer>()
+                    .Configure<ConsoleLifetimeOptions>(options =>
                     {
                         options.SuppressStatusMessages = true;
                     });

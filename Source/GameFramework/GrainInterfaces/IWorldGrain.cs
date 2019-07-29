@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GrainInterfaces
 {
-    interface IWorldGrain : Orleans.IGrainWithIntegerKey
+    public interface IWorldGrain : Orleans.IGrainWithIntegerKey
     {
     }
 }
