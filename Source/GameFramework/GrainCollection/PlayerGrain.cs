@@ -34,13 +34,8 @@ namespace GrainCollection
 
                         using (MemoryStream ms = new MemoryStream())
                         {
-                            BinaryWriter bw = new BinaryWriter(ms);
-                            bw.Write((int)ms.Position + 8);                           
-                            bw.Write((int)MessageType.UserLoginRes);
                             ProtoBuf.Serializer.Serialize(ms, res);
-                            var data = ms.ToArray();
-                            Unsafe.As<byte, int>(ref data[0]) = (int)ms.Position + 8;
-                            return Task.FromResult(data);
+                            return Task.FromResult(ms.ToArray());
                         }
                     }
 

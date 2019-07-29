@@ -1,12 +1,15 @@
-﻿using DotNetty.Buffers;
+﻿using MasterServer;
+using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
 using GrainInterfaces;
 using Orleans;
 using SharpServer;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace GateServer
 {
@@ -29,6 +32,12 @@ namespace GateServer
 
             if (svrID == 1)
             {
+                var res = new UserLoginRes
+                {
+                    Res = 0,
+                    UserId = "Test user id."
+                };
+
                 var player = clusterClient.GetGrain<IPlayerGrain>(0);
 
                 Task.Run(async ()=>
@@ -36,8 +45,8 @@ namespace GateServer
                     var response = await player.SendMessage(msgType, msgData.ToArray());
                     if(response != null)
                     {
-                        Log.Info("Response, {0}, msg len {1}", response.Read<int>(4), response.Read<int>(0));
-                        await context.WriteAndFlushAsync(response);
+                        //约定response msg id = req + 1
+                        await Send(msgType + 1, response);
                     }
                 });
             }
