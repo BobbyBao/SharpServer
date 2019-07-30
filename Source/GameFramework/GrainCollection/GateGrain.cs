@@ -13,9 +13,10 @@ namespace GrainCollection
 {
     public class GateGrain : Orleans.Grain, IGateGrain
     {
+        public IMessageProc MessageProc { get; set; }
+
         public override Task OnActivateAsync()
         {
-            //IPlayerGrain player = GrainFactory.GetGrain<IPlayerGrain>(playerId);
             Log.Info("Grain active : " + this.IdentityString);
             return base.OnActivateAsync();
         }

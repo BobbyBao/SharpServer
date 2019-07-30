@@ -29,10 +29,23 @@ namespace MasterServer
                         })
                         .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
                         .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(GateGrain).Assembly).WithReferences());
+
+                     builder
+                        .AddStartupTask(async (provider, token) =>
+                         {
+                             var factory = provider.GetService<IGrainFactory>();
+                             var client = provider.GetService<IClusterClient>();
+
+                             // make the first producer grain change every five seconds
+                             //await factory.GetGrain<IGateGrain>(0).MessageProc = ;
+
+                             // make the second producer grain change every fifteen seconds
+                             //await factory.GetGrain<IGateGrain>("B").StartAsync(10, TimeSpan.FromSeconds(15));
+                         });
                 })
                 .ConfigureServices(services =>
                 {
-                    services.AddSingleton<MasterServer>()
+                    services.AddHostedService<MasterServer>()
                     .Configure<ConsoleLifetimeOptions>(options =>
                     {
                         options.SuppressStatusMessages = true;

@@ -18,7 +18,6 @@ namespace SharpServer
         List<object> services = new List<object>();
         List<ITickable> tickables = new List<ITickable>();
         bool inited = false;
-        protected ConcurrentDictionary<string, Connection> connections = new ConcurrentDictionary<string, Connection>();
 
         public int Interval
         {
@@ -115,21 +114,6 @@ namespace SharpServer
 
         protected virtual void OnShutdown()
         {
-        }
-
-        protected virtual Connection CreateConnection()
-        {
-            return new Connection();
-        }
-
-        protected virtual void OnConnect(Connection conn)
-        {
-            connections.TryAdd(conn.channelID, conn);
-        }
-
-        protected virtual void OnDisconnect(Connection conn)
-        {
-            connections.TryRemove(conn.channelID, out var c);
         }
 
     }

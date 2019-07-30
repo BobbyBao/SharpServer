@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharpServer
 {
-    public class ServerApp : AppBase
+    public class ServerApp : NetworkApp
     {
         public int Port { get; set; } = 2239;
         public NetworkServer Server { get; set; }

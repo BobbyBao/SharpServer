@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using GrainCollection;
+using GrainInterfaces;
+using Microsoft.Extensions.Hosting;
+using Orleans;
 using SharpServer;
 using System;
 using System.Collections.Generic;
@@ -13,6 +16,8 @@ namespace MasterServer
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Log.Info("MasterServer start");
+
+            //GateGrain player = GrainFactory.GetGrain<IGateGrain>(1);
             return Task.CompletedTask;
         }
 

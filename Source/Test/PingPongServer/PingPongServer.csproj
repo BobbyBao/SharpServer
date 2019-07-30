@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpServer\SharpServer.csproj" />
+    <ProjectReference Include="..\..\SharpServer\SharpServer.Network.csproj" />
   </ItemGroup>
 
 </Project>

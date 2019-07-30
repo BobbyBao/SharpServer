@@ -9,8 +9,6 @@ namespace GateServer
 {
     class Program
     {
-        //static void Main(string[] args) => new GateServer(args).Start();
-
         static int Main(string[] args)
         {
             return RunMainAsync().Result;
@@ -48,7 +46,7 @@ namespace GateServer
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
-                    options.ServiceId = "OrleansBasics";
+                    options.ServiceId = "gate";
                 })
                 .ConfigureLogging(logging => logging.AddConsole())
                 .Build();

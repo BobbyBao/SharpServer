@@ -6,8 +6,8 @@
 namespace BattleServer
 {
 
-    [global::ProtoBuf.ProtoContract(Name = @"user_login_req")]
-    public partial class UserLoginReq : global::ProtoBuf.IExtensible
+    [global::ProtoBuf.ProtoContract(Name = @"login_battle_req")]
+    public partial class LoginBattleReq : global::ProtoBuf.IExtensible
     {
         private global::ProtoBuf.IExtension __pbn__extensionData;
         global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -21,8 +21,8 @@ namespace BattleServer
 
     }
 
-    [global::ProtoBuf.ProtoContract(Name = @"user_login_res")]
-    public partial class UserLoginRes : global::ProtoBuf.IExtensible
+    [global::ProtoBuf.ProtoContract(Name = @"login_battle_res")]
+    public partial class LoginBattleRes : global::ProtoBuf.IExtensible
     {
         private global::ProtoBuf.IExtension __pbn__extensionData;
         global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -39,10 +39,10 @@ namespace BattleServer
     [global::ProtoBuf.ProtoContract(Name = @"message_type")]
     public enum MessageType
     {
-        [global::ProtoBuf.ProtoEnum(Name = @"user_login_req")]
-        UserLoginReq = 30001,
-        [global::ProtoBuf.ProtoEnum(Name = @"user_login_res")]
-        UserLoginRes = 30002,
+        [global::ProtoBuf.ProtoEnum(Name = @"login_battle_req")]
+        LoginBattleReq = 30001,
+        [global::ProtoBuf.ProtoEnum(Name = @"login_battle_res")]
+        LoginBattleRes = 30002,
     }
 
 }

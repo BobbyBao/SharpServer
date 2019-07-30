@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPongServer", "Test\Ping
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPongClient", "Test\PingPongClient\PingPongClient.csproj", "{2620CCF9-595F-4C6D-9728-C7178887EC22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpServer", "SharpServer\SharpServer.csproj", "{02987D20-2D5F-4142-821B-383F6AC0FF2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpServer.Network", "SharpServer\SharpServer.Network.csproj", "{02987D20-2D5F-4142-821B-383F6AC0FF2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F4A06ECD-E7D7-43F4-BE91-799A9272ED0E}"
 EndProject
