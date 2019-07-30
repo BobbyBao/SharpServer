@@ -14,9 +14,10 @@ namespace SharpServer
         public string IP { get; set; } = "127.0.0.1";
         public int Port { get; set; } = 2239;
 
-        protected override void OnInit()
+        protected override Task OnInit()
         {
-            NetworkClient.Init();            
+            NetworkClient.Init();
+            return Task.CompletedTask;
         }
 
         protected virtual void InitChannel(ISocketChannel channel)
@@ -38,9 +39,10 @@ namespace SharpServer
             await NetworkClient.Connect(IP, Port, InitChannel);
         }
         
-        protected override void OnShutdown()
+        protected override Task OnShutdown()
         {
             NetworkClient.Shutdown();
+            return Task.CompletedTask;
         }
     }
 

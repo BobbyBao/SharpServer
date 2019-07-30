@@ -36,13 +36,14 @@ namespace SharpServer
 #endif
         }
 
-        public static async void Shutdown()
+        public static async Task Shutdown()
         {
             await Task.WhenAll(
                 bossGroup?.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
                 workerGroup?.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)));
         }
 
+        IChannel boundChannel;
         public async Task Start(int port, Action<IChannel> initializer)
         {
             try
@@ -59,20 +60,20 @@ namespace SharpServer
                     .Handler(new LoggingHandler("SRV-LSTN"))                    
                     .ChildHandler(new ActionChannelInitializer<IChannel>(initializer));
 
-                IChannel boundChannel = await serverBootstrap.BindAsync(port);
+                boundChannel = await serverBootstrap.BindAsync(port);
 
-                Log.Info("Wait for the clients...");
-
-                Console.ReadLine();
-
-                await boundChannel.CloseAsync();
             }
+            catch(Exception e)
+            {
+                Log.Info(e, "Exception start server on port : " + port);
+            }
+            
             finally
             {
-                await Task.WhenAll( 
-                    bossGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
-                    workerGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1))
-                );
+//                 await Task.WhenAll( 
+//                     bossGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1)),
+//                     workerGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1))
+//                 );
             }
         }
 
@@ -111,5 +112,9 @@ namespace SharpServer
 
         }
 
+        public async Task Close()
+        {
+            await boundChannel?.CloseAsync();
+        }
     }
 }

@@ -55,12 +55,14 @@ namespace Test.Client
             return new PingPongClientHandler();
         }
 
-        protected override void OnStart()
+        protected override Task OnStart()
         {
             for (int i = 0; i < 3000; i++)
             {
                 Task.Run(Connect);
             }
+
+            return Task.CompletedTask;
         }
 
         protected override void OnTick(int msec)

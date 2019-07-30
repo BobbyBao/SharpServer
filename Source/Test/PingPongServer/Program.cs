@@ -1,11 +1,13 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace Test.Server
 {
     class Program
     {
-        static void Main(string[] args)
+        static Task Main(string[] args)
         {
-            new PingPongServer().Start();
+           return new PingPongServer().Start();
         }
     }
 }

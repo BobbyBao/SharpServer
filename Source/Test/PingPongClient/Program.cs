@@ -1,7 +1,9 @@
-﻿namespace Test.Client
+﻿using System.Threading.Tasks;
+
+namespace Test.Client
 {
     static class Program
     {
-        static void Main() => new PingPongClient().Start();
+        static Task Main() => new PingPongClient().Start();
     }
 }

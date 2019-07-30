@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SharpServer
 {
@@ -51,7 +52,7 @@ namespace SharpServer
             return service;
         }
 
-        public void Start()
+        public async Task Start()
         {
             foreach(var service in services)
             {
@@ -60,13 +61,13 @@ namespace SharpServer
 
             inited = true;
 
-            OnInit();
+            await OnInit();
 
-            OnStart();
+            await OnStart();
 
-            OnRun();
+            await OnRun();
 
-            OnShutdown();
+            await OnShutdown();
 
             tickables.Clear();
 
@@ -78,12 +79,14 @@ namespace SharpServer
             services.Clear();
         }
 
-        protected virtual void OnInit()
+        protected virtual Task OnInit()
         {
+            return Task.CompletedTask;
         }
 
-        protected virtual void OnStart()
+        protected virtual Task OnStart()
         {
+            return Task.CompletedTask;
         }
 
         protected virtual void OnTick(int msec)
@@ -94,7 +97,7 @@ namespace SharpServer
             }
         }
 
-        protected virtual void OnRun()
+        protected virtual Task OnRun()
         {
             Stopwatch sw = new Stopwatch();
 
@@ -110,10 +113,13 @@ namespace SharpServer
                     Thread.Sleep(sleep);
                 }
             }
+
+            return Task.CompletedTask;
         }
 
-        protected virtual void OnShutdown()
+        protected virtual Task OnShutdown()
         {
+            return Task.CompletedTask;
         }
 
     }

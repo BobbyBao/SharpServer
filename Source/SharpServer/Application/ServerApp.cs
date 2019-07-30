@@ -28,9 +28,10 @@ namespace SharpServer
 
         }
 
-        protected override void OnInit()
+        protected override Task OnInit()
         {
             NetworkServer.Init();
+            return Task.CompletedTask;
         }
 
         protected virtual void InitChannel(IChannel channel)
@@ -46,9 +47,9 @@ namespace SharpServer
             pipeline.AddLast("handler", handler);
         }
 
-        protected override void OnStart()
+        protected override Task OnStart()
         {
-            Task.Run(Listen);
+            return Listen();
         }
 
         public async virtual Task Listen()
@@ -56,11 +57,13 @@ namespace SharpServer
             await Server.Start(Port, InitChannel);
         }
 
-        protected override void OnShutdown()
+        protected override async Task OnShutdown()
         {
-            NetworkServer.Shutdown();
+            await Server.Close();
 
-            base.OnShutdown();
+            await NetworkServer.Shutdown();
+
+            await base.OnShutdown();
         }
 
     }
