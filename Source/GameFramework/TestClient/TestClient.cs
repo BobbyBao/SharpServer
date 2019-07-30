@@ -40,11 +40,11 @@ namespace TestClient
             }
         }
 
-        protected override void OnStart()
+        protected override Task OnStart()
         {
             //for (int i = 0; i < 3000; i++)
             {
-                Task.Run(Connect);
+                return Connect();
             }
 
         }
