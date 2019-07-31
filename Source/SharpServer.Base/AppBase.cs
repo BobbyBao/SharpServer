@@ -66,24 +66,24 @@ namespace SharpServer
             services.Clear();
         }
 
-        protected virtual Task OnInit()
+        protected virtual async Task OnInit()
         {
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        protected virtual Task OnStart()
+        protected virtual async Task OnStart()
         {
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        protected virtual Task OnRun()
+        protected virtual async Task OnRun()
         {
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        protected virtual Task OnShutdown()
+        protected virtual async Task OnShutdown()
         {
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
     }

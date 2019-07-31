@@ -32,7 +32,8 @@ namespace BattleServer
                 })
                 .ConfigureServices(services =>
                 {
-                    services.Configure<ConsoleLifetimeOptions>(options =>
+                    services.AddHostedService<BattleServer>()
+                    .Configure<ConsoleLifetimeOptions>(options =>
                     {
                         options.SuppressStatusMessages = true;
                     });

@@ -29,7 +29,7 @@ namespace MasterServer
                         })
                         .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
                         .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(MasterGrain).Assembly).WithReferences())
-                        .AddStartupTask(async (provider, token) =>
+                        /*.AddStartupTask(async (provider, token) =>
                          {
                              var factory = provider.GetService<IGrainFactory>();
                              var client = provider.GetService<IClusterClient>();
@@ -39,11 +39,13 @@ namespace MasterServer
 
                              // make the second producer grain change every fifteen seconds
                              //await factory.GetGrain<IGateGrain>("B").StartAsync(10, TimeSpan.FromSeconds(15));
-                         });
+                         })*/
+                         ;
                 })
                 .ConfigureServices(services =>
                 {
                     services.AddHostedService<MasterServer>()
+
                     .Configure<ConsoleLifetimeOptions>(options =>
                     {
                         options.SuppressStatusMessages = true;

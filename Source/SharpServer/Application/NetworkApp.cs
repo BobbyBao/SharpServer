@@ -47,7 +47,7 @@ namespace SharpServer
             }
         }
 
-        protected override Task OnRun()
+        protected override async Task OnRun()
         {
             Stopwatch sw = new Stopwatch();
 
@@ -64,15 +64,15 @@ namespace SharpServer
                 }
             }
 
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        protected override Task OnShutdown()
+        protected override async Task OnShutdown()
         {
 
             tickables.Clear();
 
-            return base.OnShutdown();
+            await base.OnShutdown();
         }
     }
 }

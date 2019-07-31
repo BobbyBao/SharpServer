@@ -60,19 +60,16 @@ namespace GateServer
 
     public class GateServer : ServerApp
     {
-
         IClusterClient clusterClient;
-
-        public GateServer(IClusterClient clusterClient) : base()
+        public GateServer()
         {
-            this.clusterClient = clusterClient;
         }
 
-        protected override Task OnStart()
+        protected override async Task OnInit()
         {
-            var t = base.OnStart();
+            await base.OnInit();
 
-            return t;
+            clusterClient = await OrleansHelper.ConnectClient("dev", "gate");
         }
 
         protected override Connection CreateConnection()

@@ -1,7 +1,5 @@
-﻿using GrainCollection;
-using GrainInterfaces;
+﻿using GrainInterfaces;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Orleans;
 using SharpServer;
 using System;
@@ -10,15 +8,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MasterServer
+namespace BattleServer
 {
-    public class MasterServer : IHostedService
+    public class BattleServer : IHostedService
     {
         private readonly IGrainFactory _factory;
         private readonly IClusterClient _client;
         private readonly IHostApplicationLifetime _lifetime;
 
-        public MasterServer(IGrainFactory factory, IClusterClient client, IHostApplicationLifetime lifetime)
+        public BattleServer(IGrainFactory factory, IClusterClient client, IHostApplicationLifetime lifetime)
         {
             _factory = factory;
             _client = client;
@@ -27,15 +25,15 @@ namespace MasterServer
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Log.Info("MasterServer start");
+            Log.Info("BattleServer start");
 
-            IGateMaster player = _factory.GetGrain<IGateMaster>(0);
+            IGateBattle player = _factory.GetGrain<IGateBattle>(0);
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            Log.Info("MasterServer Stop");
+            Log.Info("BattleServer Stop");
             return Task.CompletedTask;
         }
     }
