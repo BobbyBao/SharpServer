@@ -61,7 +61,7 @@ namespace SharpServer
                     .ChildHandler(new ActionChannelInitializer<IChannel>(initializer));
 
                 boundChannel = await serverBootstrap.BindAsync(port);
-
+                Log.Info($"Listen port : {port}");
             }
             catch(Exception e)
             {

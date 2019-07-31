@@ -49,6 +49,12 @@ namespace SharpServer
 
         protected override async Task OnRun()
         {
+            if(Interval < 0)
+            {
+                Console.ReadKey();
+                return;
+            }
+
             Stopwatch sw = new Stopwatch();
 
             while (true)
