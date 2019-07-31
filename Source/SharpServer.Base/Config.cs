@@ -12,8 +12,8 @@ namespace SharpServer
     {
         public static string DataPath { get; set; }
 
-        static HoconRoot global;
-        public static HoconRoot Global
+        static Config global;
+        public static Config Global
         {
             get
             {
@@ -25,8 +25,8 @@ namespace SharpServer
             }
         }
 
-        static HoconRoot appConf;
-        public static HoconRoot App
+        static Config appConf;
+        public static Config App
         {
             get
             {

@@ -35,7 +35,7 @@ namespace SharpServer
 
             if(inited)
             {
-                (service as ISubsystem)?.Init();
+                (service as IService)?.Init();
             }
 
             return service;
@@ -45,7 +45,7 @@ namespace SharpServer
         {
             foreach(var service in services)
             {
-                (service as ISubsystem)?.Init();
+                (service as IService)?.Init();
             }
 
             inited = true;
@@ -60,7 +60,7 @@ namespace SharpServer
 
             foreach (var service in services)
             {
-                (service as ISubsystem)?.Shutdown();
+                (service as IService)?.Shutdown();
             }
 
             services.Clear();

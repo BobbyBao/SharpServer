@@ -13,8 +13,7 @@ namespace SharpServer
 
         public static async Task<IClusterClient> ConnectClient(string clusterId, string serviceId)
         {
-            IClusterClient client;
-            client = new ClientBuilder()
+            var client = new ClientBuilder()
                 .UseLocalhostClustering()
                 .Configure<ClusterOptions>(options =>
                 {

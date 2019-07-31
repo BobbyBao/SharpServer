@@ -4,13 +4,13 @@ using System.Text;
 
 namespace SharpServer
 {
-    public interface ISubsystem
+    public interface IService
     {
         void Init();
         void Shutdown();
     }
 
-    public abstract class Subsystem : ISubsystem
+    public abstract class Service : IService
     {
         public virtual void Init()
         {

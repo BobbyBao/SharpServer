@@ -28,7 +28,7 @@ namespace BattleServer
                             options.ServiceId = "battle_Server";
                         })
                         .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
-                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(MasterGrain).Assembly).WithReferences());
+                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(BattleGrain).Assembly).WithReferences());
                 })
                 .ConfigureServices(services =>
                 {
