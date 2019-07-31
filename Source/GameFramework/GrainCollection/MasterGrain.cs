@@ -11,10 +11,8 @@ using SharpServer;
 
 namespace GrainCollection
 {
-    public class GateGrain : Orleans.Grain, IGateMaster
+    public class MasterGrain : Orleans.Grain, IGateMaster
     {
-        public IMessageProc MessageProc { get; set; }
-
         public override Task OnActivateAsync()
         {
             Log.Info("Grain active : " + this.IdentityString);
