@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPongServer", "Test\PingPongServer\PingPongServer.csproj", "{084272EF-FCCD-4BEA-B072-2AB34BC95953}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPongClient", "Test\PingPongClient\PingPongClient.csproj", "{2620CCF9-595F-4C6D-9728-C7178887EC22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpServer.Network", "SharpServer\SharpServer.Network.csproj", "{02987D20-2D5F-4142-821B-383F6AC0FF2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpServer.DotNetty", "SharpServer.DotNetty\SharpServer.DotNetty.csproj", "{02987D20-2D5F-4142-821B-383F6AC0FF2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F4A06ECD-E7D7-43F4-BE91-799A9272ED0E}"
 EndProject
@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrainInterfaces", "GameFram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpServer.Base", "SharpServer.Base\SharpServer.Base.csproj", "{FE4C3A3C-0DBE-4529-90B0-A379CDC88014}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpServer.Shared", "SharpServer.Shared\SharpServer.Shared.csproj", "{078B6853-9EB8-42E3-A62B-7C8151B1704C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpServer.Orleans", "SharpServer.Orleans\SharpServer.Orleans.csproj", "{078B6853-9EB8-42E3-A62B-7C8151B1704C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharpServer", "SharpServer", "{48A1473B-9C6A-4639-9840-1C26A578759E}"
 EndProject

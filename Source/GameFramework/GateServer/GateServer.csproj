@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpServer.Shared\SharpServer.Shared.csproj" />
-    <ProjectReference Include="..\..\SharpServer\SharpServer.Network.csproj" />
+    <ProjectReference Include="..\..\SharpServer.Shared\SharpServer.Orleans.csproj" />
+    <ProjectReference Include="..\..\SharpServer\SharpServer.DotNetty.csproj" />
     <ProjectReference Include="..\GrainInterfaces\GrainInterfaces.csproj" />
     <ProjectReference Include="..\Proto\Proto.csproj" />
   </ItemGroup>
