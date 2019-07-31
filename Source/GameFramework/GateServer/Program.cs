@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using GrainInterfaces;
 using Microsoft.Extensions.Logging;
+using SharpServer;
 
 namespace GateServer
 {
@@ -18,10 +19,10 @@ namespace GateServer
         {
             try
             {
-                using (var client = await ConnectClient())
+                using (var client = await OrleansHelper.ConnectClient("dev", "gate"))
                 {
                     var gateServer = new GateServer(client);
-                    gateServer.Start();
+                    await gateServer.Start();
 
                     Console.ReadKey();
                 }
@@ -38,23 +39,6 @@ namespace GateServer
             }
         }
 
-        private static async Task<IClusterClient> ConnectClient()
-        {
-            IClusterClient client;
-            client = new ClientBuilder()
-                .UseLocalhostClustering()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = "dev";
-                    options.ServiceId = "gate";
-                })
-                .ConfigureLogging(logging => logging.AddConsole())
-                .Build();
-
-            await client.Connect();
-            Console.WriteLine("Client successfully connected to silo host \n");
-            return client;
-        }
 
     }
 }

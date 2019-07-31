@@ -30,13 +30,23 @@ namespace GateServer
 
             Log.Info("msg : {0}", msgType);
 
+            IGateMessage gate = null;
             if (svrID == 1)
             {
-                var player = clusterClient.GetGrain<IGateGrain>(0);
-                Task.Run(async ()=>
+                gate = clusterClient.GetGrain<IGateMaster>(0);
+            }
+
+            if (svrID == 3)
+            {
+                gate = clusterClient.GetGrain<IGateBattle>(0);
+            }
+
+            if(gate != null)
+            {
+                Task.Run(async () =>
                 {
-                    var response = await player.SendMessage(msgType, msgData.ToArray());
-                    if(response != null)
+                    var response = await gate.SendMessage(msgType, msgData.ToArray());
+                    if (response != null)
                     {
                         //约定response msg id = req + 1
                         await Send(msgType + 1, response);
@@ -56,6 +66,13 @@ namespace GateServer
         public GateServer(IClusterClient clusterClient) : base()
         {
             this.clusterClient = clusterClient;
+        }
+
+        protected override Task OnStart()
+        {
+            var t = base.OnStart();
+
+            return t;
         }
 
         protected override Connection CreateConnection()

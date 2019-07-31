@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace TestClient
 {
     class Program
     {
-        static void Main(string[] args) => new TestClient().Start();
+        static Task Main(string[] args) => new TestClient().Start();
         
     }
 }

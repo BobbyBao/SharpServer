@@ -3,6 +3,7 @@ using Orleans.Hosting;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace SharpServer
 {
@@ -20,13 +21,13 @@ namespace SharpServer
             })
             .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
             //.ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(RoomGrain).Assembly).WithReferences())
-            //.ConfigureLogging(logging => logging.AddConsole())
+            .ConfigureLogging(logging => logging.AddConsole())
             .Build();
             return Task.CompletedTask;
         }
 
         protected override Task OnStart()
-        {
+        {            
             return Task.CompletedTask;
         }
 

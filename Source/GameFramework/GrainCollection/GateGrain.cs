@@ -11,7 +11,7 @@ using SharpServer;
 
 namespace GrainCollection
 {
-    public class GateGrain : Orleans.Grain, IGateGrain
+    public class GateGrain : Orleans.Grain, IGateMaster
     {
         public IMessageProc MessageProc { get; set; }
 
