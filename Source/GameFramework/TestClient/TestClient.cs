@@ -32,11 +32,11 @@ namespace TestClient
         {
             if(msg.Res == 0)
             {
-                Log.Info("User {0}, login succ.", msg.UserId);
+                Log.Info("User {0}, login succ.", new Guid(msg.UserId));
             }
             else
             {
-                Log.Info("User {0}, login failed!", msg.UserId);
+                Log.Info("User {0}, login failed!", new Guid(msg.UserId));
             }
         }
 

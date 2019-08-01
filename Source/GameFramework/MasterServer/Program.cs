@@ -28,19 +28,7 @@ namespace MasterServer
                             options.ServiceId = "master_Server";
                         })
                         .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = IPAddress.Loopback)
-                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(MasterGrain).Assembly).WithReferences())
-                        /*.AddStartupTask(async (provider, token) =>
-                         {
-                             var factory = provider.GetService<IGrainFactory>();
-                             var client = provider.GetService<IClusterClient>();
-
-                             // make the first producer grain change every five seconds
-                             var grain = factory.GetGrain<IGateMaster>(0);
-
-                             // make the second producer grain change every fifteen seconds
-                             //await factory.GetGrain<IGateGrain>("B").StartAsync(10, TimeSpan.FromSeconds(15));
-                         })*/
-                         ;
+                        .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(MasterGrain).Assembly).WithReferences());
                 })
                 .ConfigureServices(services =>
                 {

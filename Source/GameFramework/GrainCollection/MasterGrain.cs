@@ -30,23 +30,18 @@ namespace GrainCollection
             switch (msgType)
             {
                 case (int)MessageType.UserLoginReq:
-                    using (MemoryStream msRead = new MemoryStream(msg))
                     {
-                        var req = Serializer.Deserialize<UserLoginReq>(msRead);
+                        var req = ProtoUtil.Deserialize<UserLoginReq>(msg);
 
                         var res = new UserLoginRes
                         {
                             Res = 0,
-                            UserId = "Test user id."
+                            UserId = Guid.NewGuid().ToByteArray()
                         };
 
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            ProtoBuf.Serializer.Serialize(ms, res);
-                            return Task.FromResult(ms.ToArray());
-                        }
+                        var ret = ProtoUtil.Serialize(res);
+                        return Task.FromResult(ret);
                     }
-
             }
 
 

@@ -12,22 +12,22 @@ namespace BattleServer
 {
     public class BattleServer : IHostedService
     {
-        private readonly IGrainFactory _factory;
-        private readonly IClusterClient _client;
-        private readonly IHostApplicationLifetime _lifetime;
+        private readonly IGrainFactory factory;
+        private readonly IClusterClient client;
+        private readonly IHostApplicationLifetime lifetime;
 
         public BattleServer(IGrainFactory factory, IClusterClient client, IHostApplicationLifetime lifetime)
         {
-            _factory = factory;
-            _client = client;
-            _lifetime = lifetime;
+            this.factory = factory;
+            this.client = client;
+            this.lifetime = lifetime;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Log.Info("BattleServer start");
 
-            IGateBattle player = _factory.GetGrain<IGateBattle>(0);
+            IGateBattle player = factory.GetGrain<IGateBattle>(0);
             return Task.CompletedTask;
         }
 

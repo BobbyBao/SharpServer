@@ -14,22 +14,22 @@ namespace MasterServer
 {
     public class MasterServer : IHostedService
     {
-        private readonly IGrainFactory _factory;
-        private readonly IClusterClient _client;
-        private readonly IHostApplicationLifetime _lifetime;
+        private readonly IGrainFactory factory;
+        private readonly IClusterClient client;
+        private readonly IHostApplicationLifetime lifetime;
 
         public MasterServer(IGrainFactory factory, IClusterClient client, IHostApplicationLifetime lifetime)
         {
-            _factory = factory;
-            _client = client;
-            _lifetime = lifetime;
+            this.factory = factory;
+            this.client = client;
+            this.lifetime = lifetime;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Log.Info("MasterServer start");
 
-            IGateMaster player = _factory.GetGrain<IGateMaster>(0);
+            IGateMaster player = factory.GetGrain<IGateMaster>(0);
             return Task.CompletedTask;
         }
 

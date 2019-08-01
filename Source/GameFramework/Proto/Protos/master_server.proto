@@ -9,12 +9,12 @@ enum message_type
 
 message user_login_req
 {
-    required    string     user_id = 1;               // 用户id(int64)
+    required    bytes user_id = 1;               // 用户id(Guid)
     required    string  user_name = 2;                // 用户名
 }
 
 message user_login_res
 {
     required    int32    res = 1;                    //
-    required    string    user_id = 2;               // 用户id(int64)
+    required    bytes    user_id = 2;               // 用户id(Guid)
 }

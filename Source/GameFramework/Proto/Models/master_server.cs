@@ -14,7 +14,7 @@ namespace MasterServer
             => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
 
         [global::ProtoBuf.ProtoMember(1, Name = @"user_id", IsRequired = true)]
-        public string UserId { get; set; }
+        public byte[] UserId { get; set; }
 
         [global::ProtoBuf.ProtoMember(2, Name = @"user_name", IsRequired = true)]
         public string UserName { get; set; }
@@ -32,7 +32,7 @@ namespace MasterServer
         public int Res { get; set; }
 
         [global::ProtoBuf.ProtoMember(2, Name = @"user_id", IsRequired = true)]
-        public string UserId { get; set; }
+        public byte[] UserId { get; set; }
 
     }
 
