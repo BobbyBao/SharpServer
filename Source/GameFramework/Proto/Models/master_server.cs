@@ -36,6 +36,153 @@ namespace MasterServer
 
     }
 
+    [global::ProtoBuf.ProtoContract(Name = @"player_base_Info_t")]
+    public partial class playerbaseInfot : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1, Name = @"user_id", IsRequired = true)]
+        public byte[] UserId { get; set; }
+
+        [global::ProtoBuf.ProtoMember(2, Name = @"user_name", IsRequired = true)]
+        public string UserName { get; set; }
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"room_base_Info")]
+    public partial class roombaseInfo : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1, Name = @"room_id", IsRequired = true)]
+        public byte[] RoomId { get; set; }
+
+        [global::ProtoBuf.ProtoMember(2, Name = @"room_name", IsRequired = true)]
+        public string RoomName { get; set; }
+
+        [global::ProtoBuf.ProtoMember(3, Name = @"max_player_count", IsRequired = true)]
+        public int MaxPlayerCount { get; set; }
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"get_room_list_req")]
+    public partial class GetRoomListReq : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"get_room_list_res")]
+    public partial class GetRoomListRes : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1, Name = @"res", IsRequired = true)]
+        public int Res { get; set; }
+
+        [global::ProtoBuf.ProtoMember(2, Name = @"room_info")]
+        public global::System.Collections.Generic.List<roombaseInfo> RoomInfoes { get; } = new global::System.Collections.Generic.List<roombaseInfo>();
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"create_room_req")]
+    public partial class CreateRoomReq : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1, Name = @"user_id", IsRequired = true)]
+        public byte[] UserId { get; set; }
+
+        [global::ProtoBuf.ProtoMember(2, Name = @"room_name", IsRequired = true)]
+        public string RoomName { get; set; }
+
+        [global::ProtoBuf.ProtoMember(3, Name = @"max_player_count", IsRequired = true)]
+        public int MaxPlayerCount { get; set; }
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"create_room_res")]
+    public partial class CreateRoomRes : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1, Name = @"res", IsRequired = true)]
+        public int Res { get; set; }
+
+        [global::ProtoBuf.ProtoMember(2, Name = @"room_info", IsRequired = true)]
+        public roombaseInfo RoomInfo { get; set; }
+
+        [global::ProtoBuf.ProtoMember(3, Name = @"players")]
+        public global::System.Collections.Generic.List<playerbaseInfot> Players { get; } = new global::System.Collections.Generic.List<playerbaseInfot>();
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"enter_room_req")]
+    public partial class EnterRoomReq : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1, Name = @"room_id", IsRequired = true)]
+        public byte[] RoomId { get; set; }
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"enter_room_res")]
+    public partial class EnterRoomRes : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1, Name = @"res", IsRequired = true)]
+        public int Res { get; set; }
+
+        [global::ProtoBuf.ProtoMember(2, Name = @"room_info", IsRequired = true)]
+        public roombaseInfo RoomInfo { get; set; }
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"leave_room_req")]
+    public partial class LeaveRoomReq : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1, Name = @"room_id", IsRequired = true)]
+        public byte[] RoomId { get; set; }
+
+    }
+
+    [global::ProtoBuf.ProtoContract(Name = @"leave_room_res")]
+    public partial class LeaveRoomRes : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1, Name = @"res", IsRequired = true)]
+        public int Res { get; set; }
+
+        [global::ProtoBuf.ProtoMember(2, Name = @"room_info", IsRequired = true)]
+        public roombaseInfo RoomInfo { get; set; }
+
+    }
+
     [global::ProtoBuf.ProtoContract(Name = @"message_type")]
     public enum MessageType
     {
@@ -43,6 +190,22 @@ namespace MasterServer
         UserLoginReq = 10001,
         [global::ProtoBuf.ProtoEnum(Name = @"user_login_res")]
         UserLoginRes = 10002,
+        [global::ProtoBuf.ProtoEnum(Name = @"get_room_list_req")]
+        GetRoomListReq = 10011,
+        [global::ProtoBuf.ProtoEnum(Name = @"get_room_list_res")]
+        GetRoomListRes = 10012,
+        [global::ProtoBuf.ProtoEnum(Name = @"user_create_room_req")]
+        UserCreateRoomReq = 10013,
+        [global::ProtoBuf.ProtoEnum(Name = @"user_create_room_res")]
+        UserCreateRoomRes = 10014,
+        [global::ProtoBuf.ProtoEnum(Name = @"user_enter_room_req")]
+        UserEnterRoomReq = 10015,
+        [global::ProtoBuf.ProtoEnum(Name = @"user_enter_room_res")]
+        UserEnterRoomRes = 10016,
+        [global::ProtoBuf.ProtoEnum(Name = @"user_leave_room_req")]
+        UserLeaveRoomReq = 10017,
+        [global::ProtoBuf.ProtoEnum(Name = @"user_leave_room_res")]
+        UserLeaveRoomRes = 10018,
     }
 
 }

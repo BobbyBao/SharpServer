@@ -4,17 +4,85 @@ package master_server;
 enum message_type
 {   
     user_login_req = 10001;   
-    user_login_res = 10002;   
+    user_login_res = 10002;
+    
+    get_room_list_req = 10011;
+    get_room_list_res = 10012;
+    user_create_room_req = 10013;
+    user_create_room_res = 10014;
+    user_enter_room_req = 10015;
+    user_enter_room_res = 10016;
+    user_leave_room_req = 10017;
+    user_leave_room_res = 10018;
 }
 
 message user_login_req
 {
     required    bytes user_id = 1;               // 用户id(Guid)
-    required    string  user_name = 2;                // 用户名
+    required    string  user_name = 2;           // 用户名
 }
 
 message user_login_res
 {
-    required    int32    res = 1;                    //
-    required    bytes    user_id = 2;               // 用户id(Guid)
+    required    int32    res = 1;
+    required    bytes    user_id = 2;            // 用户id(Guid)
+}
+
+message player_base_Info
+{
+    required    bytes user_id = 1;               // 用户id(Guid)
+    required    string  user_name = 2;           // 用户名
+}
+
+message room_base_Info
+{
+    required    bytes room_id = 1;
+    required    string  room_name = 2;
+    required    int32  max_player_count = 3;
+}
+
+message get_room_list_req
+{             
+}
+
+message get_room_list_res
+{
+    required    int32 res = 1;               
+    repeated    room_base_Info  room_info = 2;  
+}
+
+message create_room_req
+{
+    required    bytes user_id = 1;               
+    required    string  room_name = 2;        
+    required    int32  max_player_count = 3;
+}
+
+message create_room_res
+{
+    required    int32 res = 1;               
+    required    room_base_Info  room_info = 2;        
+    repeated    player_base_Info  players = 3;
+}
+
+message enter_room_req
+{
+    required    bytes room_id = 1;          
+}
+
+message enter_room_res
+{
+    required    int32 res = 1;               
+    required    room_base_Info  room_info = 2;        
+}
+
+message leave_room_req
+{
+    required    bytes room_id = 1;          
+}
+
+message leave_room_res
+{
+    required    int32 res = 1;               
+    required    room_base_Info  room_info = 2;        
 }

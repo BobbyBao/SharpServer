@@ -8,44 +8,66 @@ using System.IO;
 using ProtoBuf;
 using System.Runtime.CompilerServices;
 using SharpServer;
+using System.Collections.Generic;
 
 namespace GrainCollection
 {
     public class MasterGrain : Orleans.Grain, IGateMaster
     {
-        public override Task OnActivateAsync()
+        Dictionary<MessageType, MessageHandler> messageHandlers = new Dictionary<MessageType, MessageHandler>();
+
+        public void Register(MessageType type, MessageHandler handler)
         {
+            messageHandlers[type] = handler;
+        }
+
+        public override async Task OnActivateAsync()
+        {
+            await base.OnActivateAsync();
+
             Log.Info("Grain active : " + this.IdentityString);
-            return base.OnActivateAsync();
+
+            Register(MessageType.UserLoginReq, HandleUserLoginReq);
         }
 
-        public override Task OnDeactivateAsync()
+        public override async Task OnDeactivateAsync()
         {
+            messageHandlers.Clear();
+
             Log.Info("Grain deactive : " + this.IdentityString);
-            return base.OnDeactivateAsync();
+
+            await base.OnDeactivateAsync();
         }
 
-        public Task<byte[]> SendMessage(int msgType, byte[] msg)
+        public async Task<byte[]> SendMessage(int msgType, byte[] msg)
         {
-            switch (msgType)
+
+            if(messageHandlers.TryGetValue((MessageType)msgType, out var handler))
             {
-                case (int)MessageType.UserLoginReq:
-                    {
-                        var req = ProtoUtil.Deserialize<UserLoginReq>(msg);
-
-                        var res = new UserLoginRes
-                        {
-                            Res = 0,
-                            UserId = Guid.NewGuid().ToByteArray()
-                        };
-
-                        var ret = ProtoUtil.Serialize(res);
-                        return Task.FromResult(ret);
-                    }
+                await handler(msg);
+            }
+            else
+            {
+                Log.Info("Message not handler : {0}" + (MessageType)msgType);
             }
 
 
             return null;
+        }
+
+        async Task<byte[]> HandleUserLoginReq(byte[] msg)
+        {
+            var req = ProtoUtil.Deserialize<UserLoginReq>(msg);
+
+            //todo 
+
+            var res = new UserLoginRes
+            {
+                Res = 0,
+                UserId = Guid.NewGuid().ToByteArray()
+            };
+
+            return ProtoUtil.Serialize(res);
         }
     }
 }

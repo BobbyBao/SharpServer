@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace GrainInterfaces
 {
+    public delegate Task<byte[]> MessageHandler(byte[] msg);
+
     public interface IGateMessage
     {
         Task<byte[]> SendMessage(int msgType, byte[] msg);
