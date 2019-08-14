@@ -21,7 +21,7 @@ namespace Benchmark
         {
             //var test = new TestJson();
 
-            BenchmarkRunner.Run<TestJson>();
+            BenchmarkRunner.Run<MemoryTest>();
         }
     }
 
